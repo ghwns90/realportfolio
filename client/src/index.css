@@ -1,0 +1,38 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif; /* 폰트는 선배가 좋아하는 걸로! */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* ✨ 배경에 은은한 광원 효과 적용 */
+  background-color: var(--bg-body);
+  background-image: radial-gradient(
+    circle at 50% 0%, /* 빛의 시작점: 상단 중앙 */
+    rgba(255, 219, 112, 0.1) 0%, 
+    rgba(43, 43, 44, 0.5) 30%,
+    transparent 70%
+  );
+
+  background-attachment: fixed; /* 스크롤해도 빛 위치 고정! */
+  color: var(--text-white);
+  min-height: 100vh;
+}
+
+/* (선택 사항) 📜 스크롤바도 다크 모드로 세련되게! */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-body);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-light-gray);
+}

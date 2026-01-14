@@ -1,0 +1,41 @@
+.navbar {
+  position: absolute; /* 메인 카드 오른쪽 상단에 고정시키기 위함 */
+  top: 0;
+  right: 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-bottom-left-radius: var(--radius-xl);
+  border-top-right-radius: var(--radius-xl);
+  padding: 0 20px;
+  z-index: 10;
+}
+
+.navList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 30px;
+}
+
+.navLink {
+  display: block;
+  color: var(--text-gray);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 20px 7px;
+  text-decoration: none;
+  transition: var(--transition-smooth);
+}
+
+.navLink:hover {
+  color: var(--text-light-gray);
+}
+
+/* 현재 활성화된 탭 스타일 (금색 포인트!) */
+.active {
+  color: var(--accent-color) !important;
+}

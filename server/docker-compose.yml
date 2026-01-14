@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: real-portfolio-db
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: real_portfolio
+    ports:
+      - "5433:5432" # 5433 : 내부(컨테이너) 5432
+    volumes:
+      - ./db_data:/var/lib/postgresql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql # 초기화 스크립트 실행

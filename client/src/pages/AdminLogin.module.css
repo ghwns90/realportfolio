@@ -1,0 +1,96 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh; /* 화면 중앙 정렬 */
+  width: 100%;
+}
+
+.loginCard {
+  background: rgba(30, 30, 31, 0.6); /* 반투명 배경 */
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 50px 40px;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.iconWrapper {
+  font-size: 40px;
+  color: var(--accent-color);
+  margin-bottom: 20px;
+  background: rgba(255, 219, 112, 0.1);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 25px;
+  border: 1px solid var(--accent-color);
+}
+
+.title {
+  color: var(--text-white);
+  font-size: 26px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: var(--text-gray);
+  font-size: 14px;
+  margin-bottom: 35px;
+  letter-spacing: 0.5px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input {
+  width: 100%;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: var(--text-white);
+  font-size: 15px;
+  transition: all 0.3s ease;
+  box-sizing: border-box; /* 패딩 포함 크기 계산 */
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 0 4px rgba(255, 219, 112, 0.1);
+}
+
+.loginBtn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #ffdb70 0%, #ffbb00 100%); /* 골드 그라데이션 */
+  color: #1e1e1f;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.loginBtn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+.loginBtn:active {
+  transform: translateY(0);
+}

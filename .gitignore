@@ -1,0 +1,40 @@
+
+# 1. 보안 파일 (절대 올리면 안 됨!!!)
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# 2. 용량 빌런 (의존성 모듈)
+node_modules/
+*/node_modules/
+
+# 3. 빌드 결과물 (npm run build 하면 생기는 것들)
+build/
+dist/
+.next/
+out/
+
+# 4. OS 시스템 파일 (맥, 윈도우 찌꺼기)
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# 5. 에디터 설정 파일 (내 VSCode 설정이 남한테 가면 안 됨)
+.vscode/
+.idea/
+
+# 6. 로그 파일
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs
+*.log
+
+# 데이터베이스 관련
+server/db_data/
+*.sqlite
+*.sqlite3
+*.db
+*.log

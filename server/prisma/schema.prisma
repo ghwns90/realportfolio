@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Project {
+  id            Int      @id @default(autoincrement())
+  title         String   @db.VarChar(100)
+  description   String?  @db.Text
+  imageUrl      String?  @map("image_url") @db.Text
+  category      String?  @db.VarChar(50)
+  githubUrl     String?  @map("github_url") @db.Text
+  demoUrl       String?  @map("demo_url") @db.Text
+  featuredType  String?  @default("none") @map("featured_type") @db.VarChar(20)
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@map("projects") // 실제 DB 테이블 이름과 매핑
+}
+
+// 2. 소개 정보 모델 (About & Profile)
+model Profile {
+  id         Int       @id @default(autoincrement())
+  name       String?   @db.VarChar(50)
+  role       String?   @db.VarChar(50)
+  email      String?   @db.VarChar(100)
+  phone      String?   @db.VarChar(50)
+  birthday   DateTime? @db.Date
+  location   String?   @db.Text
+  avatarUrl  String?   @map("avatar_url") @db.Text
+
+  @@map("profile")
+}
+
+// 3. 학력/경력 모델 (Resume 탭)
+model Resume {
+  id          Int     @id @default(autoincrement())
+  type        String? @db.VarChar(20) // education, experience
+  title       String? @db.VarChar(100)
+  institution String? @db.VarChar(100)
+  period      String? @db.VarChar(50)
+  description String? @db.Text
+
+  @@map("resume")
+}
+
+model Admin {
+  id Int @id @default(autoincrement())
+  username String @unique
+  password String //암호화
+  refreshTokens RefreshToken[]
+}
+
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique // 토큰 값 그 자체
+  adminId   Int
+  admin     Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  expiresAt DateTime // 언제 만료되는지 (DB에서도 자동 삭제 관리를 위해)
+  createdAt DateTime @default(now())
+}

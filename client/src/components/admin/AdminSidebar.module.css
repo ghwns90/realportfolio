@@ -1,0 +1,141 @@
+/* 사이드바 기본 */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100vh;
+  background: rgba(30, 30, 31, 0.95);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  transition: transform 0.3s ease-in-out;
+  backdrop-filter: blur(10px);
+}
+
+.header {
+  padding: 30px 25px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 20px;
+  color: var(--text-white);
+  font-weight: 700;
+  margin: 0;
+}
+
+.logo span {
+  color: var(--accent-color); /* Gold */
+}
+
+/* 모바일 닫기 버튼 (PC에선 숨김) */
+.closeBtn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-gray);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* 네비게이션 영역 */
+.nav {
+  flex: 1;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  padding: 15px 25px;
+  color: var(--text-gray);
+  text-decoration: none;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent; /* 활성 상태 표시용 */
+}
+
+.icon {
+  margin-right: 15px;
+  font-size: 18px;
+}
+
+.item:hover {
+  color: var(--text-white);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* 활성화된 메뉴 (Active) */
+.active {
+  color: var(--accent-color);
+  background: linear-gradient(90deg, rgba(255, 219, 112, 0.1) 0%, transparent 100%);
+  border-left-color: var(--accent-color);
+}
+
+/* 하단 로그아웃 영역 */
+.footer {
+  padding: 20px 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logoutBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-gray);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.logoutBtn:hover {
+  background: rgba(255, 87, 87, 0.1);
+  color: #ff5757;
+  border-color: #ff5757;
+}
+
+/* 모바일 반응형 처리 */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%); /* 평소엔 숨김 */
+  }
+
+  .sidebar.open {
+    transform: translateX(0); /* 열림 */
+  }
+
+  .closeBtn {
+    display: block;
+  }
+
+  /* 배경 어둡게 (Overlay) */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+  }
+
+  .overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}

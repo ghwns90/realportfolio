@@ -1,0 +1,64 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #121212; /* 전체 배경색 */
+}
+
+.mainContent {
+  flex: 1;
+  margin-left: 260px; /* 사이드바 너비만큼 띄우기 */
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease;
+}
+
+.contentWrapper {
+  padding: 40px;
+  width: 100%;
+  max-width: 1200px; /* 너무 퍼지지 않게 제한 */
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* 모바일용 헤더 (PC에선 숨김) */
+.mobileHeader {
+  display: none;
+  padding: 15px 20px;
+  background: rgba(30, 30, 31, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  align-items: center;
+  gap: 15px;
+}
+
+.menuBtn {
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  font-size: 26px;
+  cursor: pointer;
+  display: flex;
+}
+
+.mobileTitle {
+  color: var(--text-white);
+  font-weight: 700;
+  font-size: 18px;
+}
+
+/* 반응형 처리 */
+@media (max-width: 768px) {
+  .mainContent {
+    margin-left: 0; /* 모바일에선 마진 제거 */
+  }
+
+  .mobileHeader {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 99;
+  }
+
+  .contentWrapper {
+    padding: 20px;
+  }
+}

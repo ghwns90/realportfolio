@@ -1,0 +1,103 @@
+/* client/src/pages/Resume.module.css */
+.title {
+  color: var(--text-white);
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.titleLine {
+  width: 40px;
+  height: 5px;
+  background: var(--accent-gradient);
+  border-radius: 3px;
+  margin-bottom: 30px;
+}
+
+.timeline {
+  margin-bottom: 30px;
+}
+
+.titleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.iconBox {
+  background: var(--bg-secondary);
+  color: var(--accent-color);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  font-size: 20px;
+}
+
+.sectionTitle {
+  color: var(--text-white);
+  font-size: 24px;
+}
+
+/* 타임라인 리스트 스타일 */
+.timelineList {
+  margin-left: 65px; /* 아이콘 위치와 맞추기 위한 여백 */
+  list-style: none;
+  padding: 0;
+}
+
+.timelineItem {
+  position: relative;
+}
+
+.timelineItem:not(:last-child) {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+
+/* 수직선 그리기 */
+.timelineItem::before {
+  content: "";
+  position: absolute;
+  top: -25px;
+  left: -38px;
+  width: 1px;
+  height: calc(100% + 20px);
+  background: var(--border-color);
+}
+
+/* 타임라인 점(Dot) */
+.timelineItem::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: -42px;
+  width: 8px;
+  height: 8px;
+  background: var(--accent-gradient);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px var(--border-color);
+}
+
+.itemTitle {
+  color: var(--text-white);
+  font-size: 16px;
+  margin-bottom: 7px;
+}
+
+.itemDate {
+  color: var(--accent-color);
+  font-size: 14px;
+  font-weight: 400;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.itemText {
+  color: var(--text-gray);
+  font-size: 14px;
+  line-height: 1.6;
+}

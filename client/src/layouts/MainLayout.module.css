@@ -1,0 +1,48 @@
+.wrapper {
+  /* background-color: var(--bg-body); */
+  background: transparent;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 0; /* 위아래 여백 */
+}
+
+.container {
+  display: flex;
+  width: 1200px; /* 전체 너비 */
+  max-width: 95%;
+  gap: 25px;
+  align-items: flex-start;
+}
+
+/* 공통 카드 스타일 */
+.cardStyle {
+  background: var(--bg-card);
+  /* ✨ 기존 테두리 대신 빛 반사 효과 적용 */
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  /* ✨ 더 깊이 있는 그림자 적용 */
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+.sidebar {
+  width: 280px;
+  padding: 30px;
+  position: sticky; /* 스크롤 내려도 고정! */
+  top: 60px;
+}
+
+.mainContent {
+  flex: 1; /* 남은 공간 다 차지 */
+  min-width: 0;
+  position: relative;
+}
+
+.contentCard {
+  padding: 30px;
+  min-height: 600px;
+  position: relative;
+}
