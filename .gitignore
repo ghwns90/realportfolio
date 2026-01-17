@@ -38,3 +38,5 @@ server/db_data/
 *.sqlite3
 *.db
 *.log
+#
+server/uploads/
