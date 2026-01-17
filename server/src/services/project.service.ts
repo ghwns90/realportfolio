@@ -1,0 +1,42 @@
+import { prisma } from '../lib/prisma';
+import fs from 'fs';
+import path from 'path';
+
+// 전체 프로젝트 가져오기
+export const getAllProjects = async () => {
+  
+  return await prisma.project.findMany({ orderBy: {order: 'asc'} });
+
+};
+
+// 프로젝트 생성
+export const createProject = async (data: any, file?: Express.Multer.File) => {
+  const thumbnailUrl = file ? `/uploads/projects/${file.filename}` : null;
+
+  return await prisma.project.create({
+    data: {...data, thumbnailUrl}
+  });
+};
+
+// 프로젝트 삭제
+export const deleteProject = async (id: number) => {
+  const project = await prisma.project.findUnique({ where: { id }});
+
+  if(project?.thumbnailUrl){
+    const filePath = path.join(__dirname, '../../', project.thumbnailUrl);
+
+    if(fs.existsSync(filePath)) fs.unlinkSync(filePath);
+
+  }
+
+  return await prisma.project.delete({ where: { id }});
+};
+
+export const updateProjectStatus = async (id: number, isDemoActive: boolean) => {
+  
+  return await prisma.project.update({
+    where: { id },
+    data: { isDemoActive }
+  });
+};
+

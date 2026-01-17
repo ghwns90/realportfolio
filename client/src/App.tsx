@@ -9,6 +9,7 @@ import AdminLogin from './pages/AdminLogin';
 import AdminLayout from './components/admin/AdminLayout';
 import RequireAuth from './components/auth/RequireAuth';
 import Profile from './components/admin/Profile';
+import Projects from './components/admin/Projects';
 
 const App: React.FC = () => {
 
@@ -34,7 +35,7 @@ const App: React.FC = () => {
           <Route path="profile" element={<Profile />}/>
           
           {/* /admin/projects */}
-          <Route path="projects" element={<div><h1>프로젝트 관리</h1></div>} />
+          <Route path="projects" element={<Projects />} />
 
           {/* /admin/resume */}
           <Route path="resume" element={<div><h1>이력서 관리</h1></div>} />

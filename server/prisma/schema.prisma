@@ -9,13 +9,16 @@ datasource db {
 model Project {
   id            Int      @id @default(autoincrement())
   title         String   @db.VarChar(100)
-  description   String?  @db.Text
-  imageUrl      String?  @map("image_url") @db.Text
-  category      String?  @db.VarChar(50)
+  description   String   @db.Text
+  period        String?  @db.VarChar(100)
+  techStack     Json   
+  thumbnailUrl  String?  @map("thumbnail_url") @db.Text
   githubUrl     String?  @map("github_url") @db.Text
   demoUrl       String?  @map("demo_url") @db.Text
-  featuredType  String?  @default("none") @map("featured_type") @db.VarChar(20)
-  createdAt     DateTime @default(now()) @map("created_at")
+  isDemoActive  Boolean  @default(true) @map("is_demo_active")
+  order         Int      @default(0)
+  updatedAt     DateTime @updatedAt
+  createdAt     DateTime @default(now())
 
   @@map("projects") // 실제 DB 테이블 이름과 매핑
 }
