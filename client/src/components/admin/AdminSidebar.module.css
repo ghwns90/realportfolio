@@ -106,6 +106,27 @@
   border-color: #ff5757;
 }
 
+.homeBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03); /* 로그아웃보다 조금 더 연하게 */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-gray);
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 10px; /* 로그아웃 버튼과 간격 띄우기 */
+  transition: all 0.3s;
+}
+
+.homeBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-white);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
 /* 모바일 반응형 처리 */
 @media (max-width: 768px) {
   .sidebar {

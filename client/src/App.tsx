@@ -7,6 +7,8 @@ import Resume from './pages/Resume';
 import Contact from './pages/Contact';    
 import AdminLogin from './pages/AdminLogin'; 
 import AdminLayout from './components/admin/AdminLayout';
+import RequireAuth from './components/auth/RequireAuth';
+import Profile from './components/admin/Profile';
 
 const App: React.FC = () => {
 
@@ -24,11 +26,12 @@ const App: React.FC = () => {
           <Route path="contact" element={<Contact />} />
         </Route>
         {/* 관리자 */}
-        <Route path="/admin" element={<AdminLayout/>}>
+        <Route path="/admin" element={<RequireAuth><AdminLayout/></RequireAuth>}>
+          <Route index element={<Navigate to="/admin/dashboard" replace />} />
           <Route path="dashboard" element={<div><h1>대시보드 메인</h1><p>여기 차트 같은 거 넣을 예정</p></div>} />
           
           {/* /admin/profile */}
-          <Route path="profile" element={<div><h1>프로필 관리</h1></div>} />
+          <Route path="profile" element={<Profile />}/>
           
           {/* /admin/projects */}
           <Route path="projects" element={<div><h1>프로젝트 관리</h1></div>} />

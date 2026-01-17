@@ -8,6 +8,10 @@
     "install-all": "npm install --prefix server && npm install --prefix client"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "cors": "^2.8.5"
   }
 }

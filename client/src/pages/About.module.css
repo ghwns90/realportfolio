@@ -1,0 +1,101 @@
+.aboutPage {
+  padding: 30px;
+}
+
+.articleTitle {
+  color: #fafafa;
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+/* 제목 하단 오렌지 라인 */
+.hLine {
+  width: 40px;
+  height: 5px;
+  background: linear-gradient(to right, #ffdb70 0%, #ffad33 100%);
+  border-radius: 3px;
+  margin-bottom: 30px;
+}
+
+.description {
+  color: #d6d6d6;
+  line-height: 1.6;
+  font-size: 15px;
+  margin-bottom: 40px;
+}
+
+.description p {
+  margin-bottom: 20px;
+}
+
+/* What I'm Doing 섹션 */
+.serviceTitle {
+  color: #fafafa;
+  font-size: 24px;
+  margin-bottom: 25px;
+}
+
+.serviceList {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.serviceItem {
+  background: #202022; /* 살짝 밝은 카드 배경 */
+  border: 1px solid #383838;
+  padding: 25px;
+  border-radius: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.serviceIconBox {
+  font-size: 30px; /* 이모지 크기 */
+  margin-top: 5px;
+}
+
+.serviceItemTitle {
+  color: #fafafa;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.serviceItemText {
+  color: #d6d6d6;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.userTagWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.userTag {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  background: #2b2b2c; /* 다크 테마용 기본 배경 */
+  border: 1px solid #383838;
+}
+
+/* 카테고리별 포인트 색상 (글자색) */
+.frontend { color: #ffdb70; }
+.backend { color: #80ff80; }
+.devops { color: #ff8080; }
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+  .serviceList {
+    grid-template-columns: 1fr;
+  }
+}

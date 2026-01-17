@@ -5,22 +5,37 @@ import projectRoutes from './routes/projectRoutes';
 import authRoutes from './routes/auth.routes';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+import adminRoutes from './routes/admin.routes';
+import publicRoutes from './routes/public.routes';
+import path from 'path';
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+app.use(cors({
+  // 쿠키사용 시 필수
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
 app.use(cookieParser());
-app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 app.get('/', (req: Request, res: Response)=> {
   res.send('포트폴리오 서버가 정상적으로 돌아가고 있어, 선배!');
 })
+
+//------------------ admin -------------------
 // 프로젝트 라우터
 app.use('/api/projects', projectRoutes);
 // 로그인 라우터
 app.use('/api/auth', authRoutes);
+// 프로필관리 라우터
+app.use('/api/admin', adminRoutes);
+
+//--------------------main--------------------
+app.use('/api/public', publicRoutes);
 
 app.listen(PORT, () => {
   console.log(`

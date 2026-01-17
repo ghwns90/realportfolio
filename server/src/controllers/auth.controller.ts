@@ -21,11 +21,15 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const accessToken = jwt.sign({ id: admin.id, username: admin.username }, JWT_SECRET, { expiresIn: '15m' });
+    const accessToken = jwt.sign({ id: admin.id, username: admin.username }, JWT_SECRET, { expiresIn: '1h' });
     const refreshToken = jwt.sign({ id: admin.id }, JWT_REFRESH, { expiresIn: '7d' });
 
     const sevenDaysFromNow = new Date();
     sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7);
+
+    await prisma.refreshToken.deleteMany({
+      where: { adminId : admin.id }
+    });
 
     await prisma.refreshToken.create({
       data: {
@@ -50,42 +54,36 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export const refresh = async (req: Request, res: Response): Promise<void> => {
+export const refresh = async (req: Request, res: Response) => {
 
-  const token = req.cookies.refreshToken;
+  const refreshToken = req.cookies.refreshToken;
 
-  if(!token) {
-    res.status(401).json({ message: '다시 로그인 해 해주세요' });
-    return;
-  }
-
+  if (!refreshToken) return res.status(401).json({ message: "리프레시 토큰 없음" });
+    
   try {
-    // 1차 검증 위조된 토큰인지 라이브러리로 확인
-    const decoded = jwt.verify(token, JWT_REFRESH) as unknown as {id: number};
-    // 2차 검증: DB에 살아있는 토큰인지 확인
-    const storedToken = await prisma.refreshToken.findUnique({
-      where: { token },
+    // 1. DB에 해당 토큰이 있는지 확인
+    const savedToken = await prisma.refreshToken.findUnique({
+      where: { token: refreshToken },
+      include: { admin: true }
     });
 
-    if(!storedToken || storedToken.expiresAt < new Date()){
-      res.clearCookie('refreshToken');
-      res.status(403).json({message: '유효하지 않거나 만료된 토큰입니다.'});
-      return;
+    if(!savedToken || savedToken.expiresAt < new Date()) {
+      return res.status(401).json({ message: "만료되었거나 유효하지 않은 토큰" });
     }
 
     const newAccessToken = jwt.sign(
-      {id: decoded.id},
-      JWT_SECRET,
-      {expiresIn: '15m'}
+      { id: savedToken.admin.id, username: savedToken.admin.username },
+      JWT_SECRET!,
+      { expiresIn: '1h' },
     );
 
-    res.status(200).json({ accessToken: newAccessToken });
+    res.json({ accessToken: newAccessToken });
 
   } catch (error) {
-    res.status(403).json({ message: '리프레시 토큰이 만료되었습니다.' });
+    res.status(401).json({ message: '토큰 갱신 실패' });
   }
 };
-
+// 로그아웃 
 export const logout = async (req: Request, res: Response) => {
   
   const token = req.cookies.refreshToken;
@@ -104,4 +102,10 @@ export const logout = async (req: Request, res: Response) => {
   res.clearCookie('refreshToken');
   res.status(200).json({message: '로그아웃 되었습니다'});
 };
-
+// 토큰 검증
+export const verify = (req: Request, res: Response) => {
+  res.status(200).json({
+    message: 'Valid Token',
+    user: req.user
+  });
+};

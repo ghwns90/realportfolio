@@ -1,21 +1,47 @@
 import React from 'react';
-import { IoMailOutline, IoSettingsOutline, IoPhonePortraitOutline, IoCalendarOutline, IoLocationOutline } from 'react-icons/io5';
-import { FaGithub, FaInstagram, FaBlog } from 'react-icons/fa';
+import { IoMailOutline, IoPhonePortraitOutline, IoCalendarOutline, IoLocationOutline } from 'react-icons/io5';
+import { FaGithub, FaInstagram, FaBlog, FaCog } from 'react-icons/fa';
 import styles from './Sidebar.module.css';
-import {Link} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useProfile } from '../hooks/useProfile';
+import { BASE_URL } from '../constants/api';
+import Loading from './Loading';
 
 const Sidebar: React.FC = () => {
+
+  const navigate = useNavigate();
+
+  const { data: profile, isLoading } = useProfile();
+
+  const handleAdminClick = () => {
+    const token = localStorage.getItem('accessToken');
+    // 토큰있으면 RequireAuth가 알아서 걸러줌
+    if(token) {
+      navigate('/admin');
+    }else{
+      navigate('/admin/login');
+    }
+  };
+
+  if(isLoading) return <Loading/>
+
   return (
-    <div className={styles.sidebarCard}>
+    <aside className={styles.sidebarCard}>
+      <button onClick={handleAdminClick} className={styles.adminBtn} aria-label="Admin Settings">
+        <FaCog />
+      </button>
       {/* 프로필 이미지와 이름 */}
       <div className={styles.infoSection}>
         <figure className={styles.avatarBox}>
-          <img src="/images/my-avatar.png" alt="Profile" width="80" style={{borderRadius: '50%'}} />
+          <img 
+            src={profile?.avatarUrl ? `${BASE_URL}${profile.avatarUrl}` : "/images/my-avatar.png"} 
+            alt={profile?.name} width="80" style={{borderRadius: '50%'}} 
+          />
         </figure>
 
         <div className={styles.infoContent}>
-          <h1 className={styles.name} title="내 이름">내 이름</h1>
-          <p className={styles.title}>Application Developer</p>
+          <h1 className={styles.name}>{profile?.name}</h1>
+          <p className={styles.title}>{profile?.role}</p>          
         </div>
       </div>
 
@@ -26,22 +52,22 @@ const Sidebar: React.FC = () => {
           <ContactItem 
             icon={<IoMailOutline />} 
             title="EMAIL" 
-            value="sunbae@example.com" 
+            value={profile?.email} 
           />
           <ContactItem 
             icon={<IoPhonePortraitOutline />} 
             title="PHONE" 
-            value="010-1234-5678" 
+            value={profile?.phone} 
           />
           <ContactItem 
             icon={<IoCalendarOutline />} 
             title="BIRTHDAY" 
-            value="1995-01-01" 
+            value={profile?.birthday}
           />
           <ContactItem 
             icon={<IoLocationOutline />} 
             title="LOCATION" 
-            value="Seoul, South Korea" 
+            value={profile?.location}
           />
         </ul>
 
@@ -49,19 +75,12 @@ const Sidebar: React.FC = () => {
 
         {/* 3. 소셜 링크 */}
         <div className={styles.socialList}>
-          <a href="https://github.com" className={styles.socialLink}><FaGithub /></a>
-          <a href="#" className={styles.socialLink}><FaInstagram /></a>
-          <a href="#" className={styles.socialLink}><FaBlog /></a>
+          <a href={profile?.socials.github || 'https://www.github.com'} className={styles.socialLink} target='_blank'><FaGithub /></a>
+          <a href={profile?.socials.instagram || 'https://www.instagram.com'} className={styles.socialLink} target='_blank'><FaInstagram /></a>
+          <a href={profile?.socials.blog || ''} className={styles.socialLink} target='_blank'><FaBlog /></a>
         </div>
-      </div>
-
-      <div className={styles.adminLink}>
-        <Link to="/admin/login">
-          <IoSettingsOutline />
-        </Link>
-      </div>
-      
-    </div>
+      </div>      
+    </aside>
   );
 };
 

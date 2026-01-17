@@ -1,0 +1,206 @@
+.container {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.pageTitle {
+  font-size: 24px;
+  color: var(--text-white);
+  font-weight: 700;
+}
+
+.saveBtn {
+  background: var(--accent-color);
+  color: #1e1e1f;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: filter 0.2s;
+}
+
+.saveBtn:hover {
+  filter: brightness(1.1);
+}
+
+/* 2컬럼 그리드 레이아웃 */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 1:1 비율 */
+  gap: 25px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* 카드 공통 스타일 */
+.card {
+  background: rgba(30, 30, 31, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 25px;
+  backdrop-filter: blur(10px);
+}
+
+.cardTitle {
+  font-size: 18px;
+  color: var(--text-white);
+  margin-bottom: 20px;
+  border-left: 3px solid var(--accent-color);
+  padding-left: 10px;
+}
+
+.formGap {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* 아바타 업로드 스타일 */
+.avatarWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.avatarPreview {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.avatarPreview img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.uploadBtn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: var(--accent-color);
+  color: #1e1e1f;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.uploadBtn:hover {
+  transform: scale(1.1);
+}
+
+.avatarHelp {
+  font-size: 13px;
+  color: var(--text-gray);
+}
+
+/* 기술 스택 태그 스타일 */
+.stackGroup {
+  margin-bottom: 20px;
+}
+
+.stackLabel {
+  display: block;
+  font-size: 14px;
+  color: var(--text-gray);
+  margin-bottom: 8px;
+}
+
+.tagContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.tag svg {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.tag svg:hover {
+  opacity: 1;
+}
+
+/* 뱃지 색상 (요청하신 대로 구분) */
+.frontend { background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%); } /* Blue */
+.backend { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); } /* Green */
+.devops { background: linear-gradient(135deg, #cb2d3e 0%, #ef473a 100%); } /* Red */
+
+.tagInput {
+  background: transparent;
+  border: none;
+  color: var(--text-white);
+  font-size: 14px;
+  flex: 1;
+  min-width: 100px;
+  padding: 5px;
+}
+
+.tagInput:focus {
+  outline: none;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ✨ 새로 추가할 .subBtn 스타일 */
+.subBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background-color: #4b5563; /* 회색 계열 (메인 버튼보다 덜 강조) */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  align-self: flex-start; /* 왼쪽 정렬 */
+  margin-top: 1rem; /* 위쪽 입력창들과 간격 */
+}
+
+.subBtn:hover {
+  background-color: #374151; /* 호버 시 좀 더 어두운 회색 */
+}

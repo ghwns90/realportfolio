@@ -1,5 +1,6 @@
 .sidebarCard {
   text-align: center;
+  position: relative;
 }
 
 .avatarBox {
@@ -12,9 +13,8 @@
 
 .name {
   color: var(--text-white);
-  font-size: 24px;
+  font-size: 1.6rem;
   font-weight: 600;
-  margin-bottom: 1px;
 }
 
 .title {
@@ -87,4 +87,42 @@
 
 .socialLink:hover {
   color: var(--accent-color);
+}
+/* ✨ 톱니바퀴 버튼 스타일링 */
+.adminBtn {
+  position: absolute; 
+  top: 0;
+  right: 0;  
+  /* 버튼 기본 스타일 초기화 (흰색 배경 제거) */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  
+  /* 아이콘 크기 및 색상 */
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.5);   
+  /* 위치 및 여백 */
+  padding: 10px;
+  margin: 10px;
+  border-radius: 12px; /* 둥근 사각형 */
+  
+  /* 애니메이션 부드럽게 */
+  transition: all 0.3s ease-in-out;
+  z-index: 10; /* 프로필 사진보다 위에 오게 */
+}
+/* 호버 효과 (마우스 올렸을 때) */
+.adminBtn:hover {
+  color: var(--accent-color); /* 포인트 컬러(골드)로 변경 */
+  background: rgba(255, 219, 112, 0.1); /* 배경에 살짝 골드빛 추가 */
+  transform: rotate(90deg); /* ⚙️ 휙 돌아가는 애니메이션 */
+  box-shadow: 0 0 10px rgba(255, 219, 112, 0.2); /* 은은한 빛 */
+}
+
+
+@media (max-width: 1024px) {
+  .adminBtn {
+    top: 15px;
+    right: 15px;
+    margin: 0;
+  }
 }

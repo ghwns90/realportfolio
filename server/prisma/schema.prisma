@@ -30,6 +30,9 @@ model Profile {
   birthday   DateTime? @db.Date
   location   String?   @db.Text
   avatarUrl  String?   @map("avatar_url") @db.Text
+  description String?  @db.Text // About 탭의 상세설명 
+  techStack  Json      // 기술스택
+  socials    Json 
 
   @@map("profile")
 }

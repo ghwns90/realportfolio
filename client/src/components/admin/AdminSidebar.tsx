@@ -5,7 +5,7 @@ import {
   FaProjectDiagram, 
   FaFileAlt, 
   FaSignOutAlt, 
-  FaHome 
+  FaHome,
 } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
 import styles from './AdminSidebar.module.css';
@@ -22,7 +22,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onClose }) => {
   const handleLogout = async () => {
 
     try {
-      await fetch(`${BASE_URL}/api/auth/logout`, {method:'POST'});
+      await fetch(`${BASE_URL}/api/auth/logout`, {method:'POST', credentials: 'include'});
       
     } catch (error) {
       console.error(error);
@@ -83,6 +83,13 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onClose }) => {
         </nav>
 
         <div className={styles.footer}>
+          <button 
+              className={styles.homeBtn} 
+              onClick={() => navigate('/')}
+          >
+              <FaHome className={styles.icon} />
+              <span>홈으로 이동</span>
+          </button>
           <button className={styles.logoutBtn} onClick={handleLogout}>
             <FaSignOutAlt className={styles.icon} />
             <span>로그아웃</span>
