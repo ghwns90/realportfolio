@@ -5,6 +5,10 @@
   color: #fafafa;
 }
 
+input, textarea {
+  margin: 8px 0;
+}
+
 /* 🏗️ 좌우 분할 그리드 레이아웃 */
 .mainGrid {
   display: grid;
@@ -163,6 +167,33 @@
 .submitBtn:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(255, 219, 112, 0.3);
+}
+
+.selectGroup {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  color: #d6d6d6;
+}
+
+.select {
+  background: #252526;
+  border: 1px solid #383838;
+  border-radius: 8px;
+  padding: 12px;
+  color: #fafafa;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+}
+
+.select:focus {
+  border-color: #ffdb70;
 }
 
 .fileInputWrapper {

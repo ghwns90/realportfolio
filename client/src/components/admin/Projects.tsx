@@ -13,7 +13,7 @@ interface Project {
   id: number;
   title: string;
   description: string;
-  period?: string;
+  category: string;
   techStack: string[];
   thumbnailUrl?: string;
   githubUrl?: string;
@@ -29,7 +29,7 @@ const Projects: React.FC = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    period: '',
+    category: 'Web Development',
     techStack: [] as string[],
     githubUrl: '',
     demoUrl: '',
@@ -95,7 +95,7 @@ const Projects: React.FC = () => {
 
   const resetForm = () => {
     setFormData({
-      title: '', description: '', period: '', techStack: [], githubUrl: '', demoUrl: '', isDemoActive: true
+      title: '', description: '', category: 'Web Development', techStack: [], githubUrl: '', demoUrl: '', isDemoActive: true
     });
     setThumbnail(null);
     setPreviewUrl('');
@@ -138,8 +138,18 @@ const Projects: React.FC = () => {
           <h3 className={styles.cardTitle}>Add New Project</h3>
           <div className={styles.form}>
             <FormInput label="Title" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} />
-            <FormTextArea label="Description" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} />
-            <FormInput label="Period (예: 2023.12 - 2024.02)" value={formData.period} onChange={e => setFormData({...formData, period: e.target.value})} />  
+            <div className={styles.selectGroup}>
+              <label className={styles.label}>Category</label>
+              <select 
+                className={styles.select}
+                value={formData.category} 
+                onChange={e => setFormData({...formData, category: e.target.value})}
+              >
+                <option value="Web Development">Web Development</option>
+                <option value="Applications">Applications</option>
+              </select>
+            </div>
+            <FormTextArea label="Description" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} /> 
             <FormInput 
               label="Tech Stack (쉼표로 구분 예: React, Node.js)" 
               value={formData.techStack.join(', ')} 

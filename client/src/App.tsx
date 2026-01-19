@@ -8,7 +8,7 @@ import AdminLogin from './pages/AdminLogin';
 import AdminLayout from './components/admin/AdminLayout';
 import RequireAuth from './components/auth/RequireAuth';
 import Profile from './components/admin/Profile';
-import PublicProjects from './pages/Projects';
+import Portfolio from './pages/Portfolio';
 import Projects from './components/admin/Projects';
 
 const App: React.FC = () => {
@@ -22,7 +22,7 @@ const App: React.FC = () => {
         <Route path="/" element={<MainLayout />}>        
           <Route index element={<Navigate to="/about" replace />} />
           <Route path="about" element={<About />} />
-          <Route path="portfolio" element={<PublicProjects />} />
+          <Route path="portfolio" element={<Portfolio />} />
           <Route path="resume" element={<Resume />} />
           <Route path="contact" element={<Contact />} />
         </Route>

@@ -13,6 +13,8 @@
   width: 1200px; /* 전체 너비 */
   max-width: 95%;
   gap: 25px;
+  margin: 0 auto;
+  padding: 60px 20px;
   align-items: flex-start;
 }
 
@@ -45,4 +47,48 @@
   padding: 30px;
   min-height: 600px;
   position: relative;
+}
+
+
+/* 모바일 반응형 (1024px 이하) */
+@media (max-width: 1024px) {
+  /* 1. 전체 화면 정렬 해제 */
+  .wrapper {
+    padding: 20px 0; /* 위아래 여백 조절 */
+    align-items: flex-start; /* 💡 중앙 정렬 대신 상단부터 차례대로 */
+    display: block; /* 💡 가로/세로 중앙 정렬이 필요 없으므로 일반 블록으로 전환 */
+  }
+
+  .container {
+    flex-direction: column; /* 세로 1열 */
+    width: 100%;
+    max-width: 100%; /* 모바일은 꽉 차게 */
+    padding: 0 15px; /* 좌우 여백만 살짝 */
+    gap: 15px;
+  }
+
+  .sidebar {
+    width: 100% !important;
+    position: static; /* 💡 sticky를 풀어서 순서대로 쌓이게 함 */
+    top: 0; /* sticky 영향 제거 */
+    max-height: 110px; 
+    padding: 20px; /* 모바일에선 조금 더 슬림하게 */
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+  }
+
+  /* 내일 쓸 기능 - 사이드바 확장 시 */
+  .sidebar.active {
+    max-height: 1000px; 
+  }
+
+  .mainContent {
+    width: 100%;
+    margin-top: 0; /* 겹침 방지 */
+  }
+
+  .contentCard {
+    padding: 20px;
+    min-height: auto; /* 💡 모바일은 내용에 맞게 높이 조절 */
+  }
 }

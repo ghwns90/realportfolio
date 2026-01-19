@@ -2,7 +2,7 @@ export interface Project {
   id: number;
   title: string;
   description: string;
-  period?: string;
+  category: string;
   techStack: string[];
   thumbnailUrl?: string;
   githubUrl?: string;

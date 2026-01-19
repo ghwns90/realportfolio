@@ -10,7 +10,7 @@ model Project {
   id            Int      @id @default(autoincrement())
   title         String   @db.VarChar(100)
   description   String   @db.Text
-  period        String?  @db.VarChar(100)
+  category      String   @default("Web Development")
   techStack     Json   
   thumbnailUrl  String?  @map("thumbnail_url") @db.Text
   githubUrl     String?  @map("github_url") @db.Text

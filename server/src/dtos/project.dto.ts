@@ -4,7 +4,7 @@ import { z } from 'zod';
 export const projectDataSchema = z.object({
   title: z.string().min(1, "제목은 필수입니다."),
   description: z.string().min(1, "설명은 필수입니다."),
-  period: z.string().optional(),
+  category: z.enum(["Web Development", "Applications"]),
   techStack: z.union([z.array(z.string()), z.string()]).transform((val) => 
     typeof val === 'string' ? JSON.parse(val) : val
   ),
