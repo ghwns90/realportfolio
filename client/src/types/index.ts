@@ -3,15 +3,6 @@
 // 공통 타입을 관리
 // 프로젝트 데이터의 타입 정의 (Prisma Schema와 똑같이)
 
-export interface Project {
-  id: number,
-  title: string,
-  description: string,
-  imageUrl: string,
-  category: string,
-  featuredType: 'main' | 'second' | 'none',
-};
-
 export interface Profile {
   name: string,
   role: string,

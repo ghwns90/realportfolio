@@ -4,7 +4,9 @@ import fs from 'fs';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = 'uploads/profiles/';
+
+    const folder = file.fieldname === 'thumbnail' ? 'projects' : 'profiles';
+    const uploadPath = `uploads/${folder}`;
     //폴더 없으면 자동 생성
     if(!fs.existsSync(uploadPath)){
       fs.mkdirSync(uploadPath, { recursive: true});

@@ -26,7 +26,7 @@ export const authFetch = async (url: string, options: AuthFetchOptions = {}) => 
     console.log('🔄 액세스 토큰 만료 재발급 시도 중..');
   
     try {
-      const refreshRes = await fetch(`${BASE_URL}/api/auth/refresh`, { method: 'POST' });
+      const refreshRes = await fetch(`${BASE_URL}/api/auth/refresh`, { method: 'POST' , credentials: 'include'});
 
       if(refreshRes.ok){
         const data = await refreshRes.json();
@@ -35,23 +35,29 @@ export const authFetch = async (url: string, options: AuthFetchOptions = {}) => 
         localStorage.setItem('accessToken', newAccessToken);
         console.log('✅ 토큰 갱신 성공!');
 
-        const newHeaders = {
+        const retryHeaders = {
           ...headers,
           Authorization: `Bearer ${newAccessToken}`,
         };
 
-        response = await fetch(url, { ...fetchOptions, headers: newHeaders });
+        response = await fetch(url, { ...fetchOptions, headers: retryHeaders });
       }else{
-        console.error('❌ 리프레시 토큰도 만료됨. 로그아웃 처리.');
-        localStorage.removeItem('accessToken');
-        window.location.href = '/admin/login';
+
+        throw new Error('Refresh token expired');
+
       }
-    } catch (error) {
-      console.error('토큰 갱신 중 네트워크 오류', error);
+    } catch (err) {
+      localStorage.removeItem('accessToken');
       window.location.href = '/admin/login';
+      throw err;
     }
   }
 
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+  }
+  
   return response;
 
   

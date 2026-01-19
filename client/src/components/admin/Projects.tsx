@@ -6,6 +6,7 @@ import { FormInput, FormTextArea } from '../../components/common/FormInput';
 import { FaPlus, FaTrash } from 'react-icons/fa';
 import styles from './Projects.module.css';
 import Loading from '../Loading';
+import ProjectCard from '../common/ProjectCard';
 
 // 프로젝트 인터페이스 정의
 interface Project {
@@ -52,8 +53,13 @@ const Projects: React.FC = () => {
       isFormData: true
     }),
     onSuccess: () => {
+      alert('프로젝트 등록 성공!');
       queryClient.invalidateQueries({ queryKey: ['adminProjects'] });
       resetForm();
+    },
+    onError: (error: Error) => {
+      alert(`등록 실패: ${error.message}`);
+      console.error('Mutation Error:', error);
     }
   });
 
@@ -64,6 +70,18 @@ const Projects: React.FC = () => {
         body: JSON.stringify({ isDemoActive: status }),
       }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['adminProjects'] })
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id: number) => authFetch(`${BASE_URL}/api/admin/projects/${id}`, {
+      method: 'DELETE',
+    }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['adminProjects']});
+    },
+    onError: (error: Error) => {
+      alert(`삭제 실패: ${error}`);
+    }
   });
 
   // 핸들러 함수
@@ -83,13 +101,31 @@ const Projects: React.FC = () => {
     setPreviewUrl('');
   };
 
-  const handleSubmit = () => {
-    const data = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      data.append(key, typeof value === 'object' ? JSON.stringify(value) : String(value));
-    });
-    if(thumbnail) data.append('thumbnail', thumbnail);
-    createMutation.mutate(data);
+  const handleDelete = (id: number) => {
+    if(window.confirm('프로젝트를 삭제하시겠습니까?')) {
+      deleteMutation.mutate(id);
+    }
+  }
+  const handleSubmit = async (e: React.MouseEvent) => {
+
+    e.preventDefault()
+
+    console.log('데이터:', formData)
+
+    try {
+      const data = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        data.append(key, typeof value === 'object' ? JSON.stringify(value) : String(value));
+      });
+
+      if(thumbnail) data.append('thumbnail', thumbnail);
+
+      await createMutation.mutateAsync(data);
+
+    } catch (error) {
+      console.error('❌ 전송 중 에러 발생:', error); // 💡 여기서 찍히는 에러가 범인입니다!
+    }
+    
   }
 
   if(isLoading) return <Loading />
@@ -103,16 +139,29 @@ const Projects: React.FC = () => {
           <div className={styles.form}>
             <FormInput label="Title" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} />
             <FormTextArea label="Description" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} />
+            <FormInput label="Period (예: 2023.12 - 2024.02)" value={formData.period} onChange={e => setFormData({...formData, period: e.target.value})} />  
+            <FormInput 
+              label="Tech Stack (쉼표로 구분 예: React, Node.js)" 
+              value={formData.techStack.join(', ')} 
+              onChange={e => setFormData({...formData, techStack: e.target.value.split(',').map(s => s.trim())})} 
+            />  
+            {/* 커스텀 썸네일 */}
             <div className={styles.fileBox}>
-              <label>Thumbnail</label>
-              <input type="file" onChange={handleImageChange} />
+              <label>Thumbnail Image</label>
+              <div className={styles.customFileInput}>
+                <label htmlFor="thumbnail" className={styles.fileUploadBtn}>
+                  {thumbnail ? 'Change Image' : 'Select Image'}
+                </label>
+                <span className={styles.fileName}>{thumbnail ? thumbnail.name : '선택된 파일 없음'}</span>
+                <input id="thumbnail" type="file" onChange={handleImageChange} accept="image/*" />
+              </div>
             </div>
             <div className={styles.row}>
               <FormInput label="Github" value={formData.githubUrl} onChange={e => setFormData({...formData, githubUrl: e.target.value})} />
               <FormInput label="Demo" value={formData.demoUrl} onChange={e => setFormData({...formData, demoUrl: e.target.value})} />
             </div>
-            <button className={styles.submitBtn} onClick={handleSubmit}>
-              <FaPlus /> Create Project
+            <button className={styles.submitBtn} onClick={(e) => handleSubmit(e)}>
+              <FaPlus /> {createMutation.isPending ? 'Creating...' : 'Create Project'}
             </button>
           </div>
         </section>
@@ -120,16 +169,9 @@ const Projects: React.FC = () => {
         {/* ➡️ 오른쪽: 실시간 프리뷰 */}
         <section className={styles.previewSection}>
           <h3 className={styles.cardTitle}>Live Preview</h3>
-          <div className={styles.previewCard}>
-            <div className={styles.previewImg}>
-              <img src={previewUrl || '/images/placeholder.png'} alt="Preview" />
-              <div className={`${styles.indicator} ${formData.isDemoActive ? styles.active : styles.inactive}`}></div>
-            </div>
-            <div className={styles.previewInfo}>
-              <h4>{formData.title || 'Project Title'}</h4>
-              <p>{formData.description || 'Description will appear here...'}</p>
-            </div>
-          </div>
+          <div className={styles.previewWrapper}>
+            <ProjectCard data={{...formData, thumbnailUrl: previewUrl }} isPreview={true}/>
+          </div>          
         </section>
       </div>
 
@@ -158,7 +200,7 @@ const Projects: React.FC = () => {
                     </button>
                   </td>
                   <td>
-                    <button className={styles.deleteBtn}><FaTrash /></button>
+                    <button className={styles.deleteBtn} onClick={() => handleDelete(p.id)}><FaTrash /></button>
                   </td>
                 </tr>
               ))}

@@ -71,4 +71,17 @@ export const updateAvatar = async (req: Request, res: Response) => {
     console.error(err);
     res.status(500).json({ message: '이미지 저장 중 에러 발생 '});
   } 
-}
+};
+
+// 화면용 프로필 조회
+export const getPublicProfile = async (req: Request, res: Response) => {
+  try {
+    const profile = await profileService.getPublicProfile();
+    if(!profile) return res.status(404).json({ message: "프로필을 찾을 수 없습니다" });
+
+    res.json(profile);
+
+  } catch (error) {
+    res.status(500).json({ message: "서버 오류 발생" });
+  }
+};

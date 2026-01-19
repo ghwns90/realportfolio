@@ -1,33 +1,46 @@
 .container {
-  padding: 30px;
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
   color: #fafafa;
 }
 
+/* 🏗️ 좌우 분할 그리드 레이아웃 */
 .mainGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.1fr 0.9fr;
   gap: 30px;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
+  align-items: start;
 }
 
 .card {
   background: #1e1e1f;
   border: 1px solid #383838;
   border-radius: 20px;
-  padding: 25px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  padding: 30px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
 .cardTitle {
-  font-size: 20px;
-  margin-bottom: 20px;
-  color: #ffdb70;
+  font-size: 22px;
+  margin-bottom: 25px;
+  color: #ffdb70; /* 포인트 골드 컬러 */
+  font-weight: 600;
 }
 
-/* --- 실시간 프리뷰 카드 스타일 --- */
+/* 🖼️ 실시간 프리뷰 카드 디자인 */
 .previewSection {
+  position: sticky; /* 💡 스크롤 따라오게 설정 */
+  top: 100px;       /* 💡 상단에서 어느 정도 떨어져서 따라올지 결정 */
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-height: calc(100vh - 150px); /* 💡 화면 높이를 넘지 않게 제한 */
+}
+
+.previewWrapper {
+  width: 100%;
 }
 
 .previewCard {
@@ -35,13 +48,14 @@
   border: 1px solid #383838;
   border-radius: 16px;
   overflow: hidden;
-  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  position: sticky;
 }
 
 .previewImg {
   position: relative;
   width: 100%;
-  height: 220px;
+  height: 240px;
   background: #252526;
 }
 
@@ -51,58 +65,179 @@
   object-fit: cover;
 }
 
-/* 🟢/🔴 상태 표시 불빛 (Indicator) */
+/* 🟢/🔴 실시간 상태 불빛 (Indicator) */
 .indicator {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  width: 12px;
-  height: 12px;
+  top: 20px;
+  right: 20px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  z-index: 10;
+  transition: all 0.3s ease;
 }
 
 .active {
   background-color: #2ecc71;
-  box-shadow: 0 0 12px #2ecc71;
+  box-shadow: 0 0 15px #2ecc71, 0 0 5px #2ecc71; /* 글로우 효과 */
 }
 
 .inactive {
   background-color: #e74c3c;
-  box-shadow: 0 0 12px #e74c3c;
+  box-shadow: 0 0 15px #e74c3c, 0 0 5px #e74c3c;
 }
 
-/* --- 하단 테이블 스타일 --- */
+/* ⬇️ 하단 리스트 테이블 스타일 */
+.listCard {
+  width: 100%;
+}
+
 .tableWrapper {
-  margin-top: 20px;
-  overflow-x: auto;
+  margin-top: 15px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #2b2b2c;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  text-align: left;
+  background: #1e1e1f;
 }
 
 .table th {
-  padding: 15px;
-  border-bottom: 1px solid #383838;
+  background: #252526;
+  padding: 15px 20px;
+  text-align: left;
+  font-size: 14px;
   color: #d6d6d6;
 }
 
 .table td {
-  padding: 15px;
+  padding: 15px 20px;
   border-bottom: 1px solid #2b2b2c;
+  vertical-align: middle;
 }
 
+/* 토글 버튼 디자인 */
 .toggleBtn {
-  padding: 5px 12px;
-  border-radius: 20px;
+  padding: 6px 14px;
+  border-radius: 30px;
   font-size: 12px;
+  font-weight: 600;
   border: none;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.on { background: rgba(46, 204, 113, 0.1); color: #2ecc71; border: 1px solid #2ecc71; }
-.off { background: rgba(231, 76, 60, 0.1); color: #e74c3c; border: 1px solid #e74c3c; }
+.on { background: rgba(46, 204, 113, 0.15); color: #2ecc71; border: 1px solid #2ecc71; }
+.off { background: rgba(231, 76, 60, 0.15); color: #e74c3c; border: 1px solid #e74c3c; }
+
+.deleteBtn {
+  background: none;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  font-size: 18px;
+  transition: color 0.2s;
+}
+
+.deleteBtn:hover { color: #e74c3c; }
+
+.submitBtn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(to right, #ffdb70 0%, #ffad33 100%);
+  color: #121212;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: 0.3s;
+  margin-top: 20px;
+}
+
+.submitBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 219, 112, 0.3);
+}
+
+.fileInputWrapper {
+  margin: 15px 0;
+}
+
+.fileBox {
+  margin-bottom: 20px;
+}
+
+.fileBox label {
+  display: block;
+  font-size: 14px;
+  color: #d6d6d6;
+  margin-bottom: 8px;
+}
+
+.customFileInput {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* 실제 input은 숨깁니다 */
+.customFileInput input[type="file"] {
+  display: none;
+}
+
+/* 대신 이 label이 버튼 역할을 합니다 */
+.fileUploadBtn {
+  padding: 10px 18px;
+  background: #383838;
+  border: 1px solid #454545;
+  border-radius: 8px;
+  color: #fafafa;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.fileUploadBtn:hover {
+  background: #454545;
+  border-color: #ffdb70;
+}
+
+.fileName {
+  font-size: 13px;
+  color: #888;
+}
+
+/* 커스텀 파일 업로드 버튼 */
+.fileLabel {
+  display: inline-block;
+  padding: 8px 16px;
+  background: #383838;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.fileLabel:hover { background: #454545; }
+
+
+
+
+/* 📱 모바일 반응형 (화면 너비 1000px 이하일 때) */
+@media (max-width: 1000px) {
+  .mainGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .previewSection {
+    position: static; /* 💡 모바일에서는 따라오지 않고 정적으로 쌓임 */
+    order: -1; 
+    margin-bottom: 30px;
+  }
+}

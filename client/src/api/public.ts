@@ -2,7 +2,7 @@ import { BASE_URL } from '../constants/api';
 // 프로필 조회
 export const fetchPublicProfile = async () => {
 
-  const res = await fetch(`${BASE_URL}/api/public/profile`);
+  const res = await fetch(`${BASE_URL}/api/profile`);
   const data = await res.json();
 
   console.log("⚛️ React Query가 받은 진짜 데이터:", data);

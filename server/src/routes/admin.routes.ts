@@ -1,13 +1,17 @@
 import { Router } from 'express';
 import * as profileController from '../controllers/profile.controller';
+import * as projectController from '../controllers/project.controller';
 import { authenticateJWT } from '../middlewares/authMiddleware';
 import { validate } from '../middlewares/validateMiddleware'; // 👈 검사기
 import { updateProfileSchema, changePasswordSchema } from '../dtos/profile.dto';
 import { upload } from '../lib/multer';
+import { projectSchema } from 'dtos/project.dto';
 
 const router = Router();
 
+//---------------------------프로필---------------------------------
 router.use(authenticateJWT);
+
 // 프로필 조회
 router.get('/profile', profileController.getProfile);
 // 프로필 수정
@@ -22,5 +26,15 @@ router.put(
   profileController.updatePassword);
 // 프로필 사진 업데이트
 router.put('/profile/avatar', upload.single('avatar'), profileController.updateAvatar);
+
+
+//-----------------------프로젝트----------------------------------
+router.get('/projects', projectController.listProjects);
+
+router.post('/projects', upload.single('thumbnail'), validate(projectSchema), projectController.addProject);
+
+router.patch('/projects/:id/status', projectController.toggleStatus);
+
+router.delete('/projects/:id', projectController.removeProject);
 
 export default router;

@@ -1,3 +1,4 @@
+import { projectDto } from 'dtos/project.dto';
 import { prisma } from '../lib/prisma';
 import fs from 'fs';
 import path from 'path';
@@ -10,7 +11,7 @@ export const getAllProjects = async () => {
 };
 
 // 프로젝트 생성
-export const createProject = async (data: any, file?: Express.Multer.File) => {
+export const createProject = async (data: projectDto, file?: Express.Multer.File) => {
   const thumbnailUrl = file ? `/uploads/projects/${file.filename}` : null;
 
   return await prisma.project.create({
@@ -31,7 +32,7 @@ export const deleteProject = async (id: number) => {
 
   return await prisma.project.delete({ where: { id }});
 };
-
+// 상태 수정
 export const updateProjectStatus = async (id: number, isDemoActive: boolean) => {
   
   return await prisma.project.update({
@@ -39,4 +40,13 @@ export const updateProjectStatus = async (id: number, isDemoActive: boolean) => 
     data: { isDemoActive }
   });
 };
+
+// 화면용 프로젝트 가져오기
+export const getPublicProjects = async () => {
+  return await prisma.project.findMany({
+    orderBy: {
+      order: 'asc',
+    }
+  });
+}
 

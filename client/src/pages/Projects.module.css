@@ -1,0 +1,49 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.title {
+  font-size: 36px;
+  color: #fafafa;
+  margin-bottom: 10px;
+  position: relative;
+  display: inline-block;
+}
+
+/* 제목 아래 포인트 선 */
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: #ffdb70;
+  border-radius: 2px;
+}
+
+.subtitle {
+  color: #888;
+  font-size: 16px;
+}
+
+/* 📱 반응형 그리드 시스템 */
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 기본 2열 */
+  gap: 40px;
+}
+
+@media (max-width: 900px) {
+  .projectGrid {
+    grid-template-columns: 1fr; /* 모바일 1열 */
+  }
+}

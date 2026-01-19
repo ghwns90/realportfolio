@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import { useQuery } from '@tanstack/react-query';
-import ProjectCard from '../components/ProjectCard';
 import { BASE_URL } from '../constants/api';
 import styles from './Portfolio.module.css';
-import type { Project } from '../types';
+import type { Project } from '../types/project';
 import Loading from '../components/Loading';
 
 const Portfolio: React.FC = () => {

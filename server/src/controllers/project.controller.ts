@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as projectService from '../services/project.service';
-import { projectDto } from '../dtos/project.dto'
+import { projectDataSchema, projectDto } from '../dtos/project.dto'
 
 // 프로젝트 목록 가져오기
 export const listProjects = async (req: Request, res: Response) => {
@@ -17,9 +17,9 @@ export const listProjects = async (req: Request, res: Response) => {
 export const addProject = async (req: Request, res: Response) => {
   try {
     
-    const projectData: projectDto = req.body;
+    const validatedData = projectDataSchema.parse(req.body);
 
-    const project = await projectService.createProject(projectData, req.file);
+    const project = await projectService.createProject(validatedData, req.file);
 
     res.status(201).json(project);
 
@@ -58,3 +58,12 @@ export const toggleStatus = async (req:Request, res: Response) => {
   }
 };
 
+// 화면용 프로젝트 조회
+export const getPublicProjects = async (req: Request, res: Response) => {
+  try {
+    const projects = await projectService.getPublicProjects(); 
+    res.status(200).json(projects);
+  } catch (error) {
+    res.status(500).json({ message: '프로젝트를 불러오는데 실패했습니다.' });
+  }
+};

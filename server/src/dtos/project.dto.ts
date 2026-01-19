@@ -1,15 +1,23 @@
 import { z } from 'zod';
 
-export const projectSchema = z.object({
-  body: z.object({
-    title: z.string().min(1, "제목은 필수입니다."),
-    description: z.string().min(1, "설명은 필수입니다."),
-    period: z.string().optional(),
-    techStack: z.union([z.array(z.string()), z.string()]).transform((val)=>typeof val === 'string' ? JSON.parse(val) : val),
-    githubUrl: z.url().optional().or(z.literal('')),
-    demoUrl: z.url().optional().or(z.literal('')),
-    isDemoActive: z.union([z.boolean(), z.string()]).transform((val) => val === 'true' || val === true).default(true),
-  })
+// 순수하게 "데이터"만 검증하는 스키마를 따로 정의
+export const projectDataSchema = z.object({
+  title: z.string().min(1, "제목은 필수입니다."),
+  description: z.string().min(1, "설명은 필수입니다."),
+  period: z.string().optional(),
+  techStack: z.union([z.array(z.string()), z.string()]).transform((val) => 
+    typeof val === 'string' ? JSON.parse(val) : val
+  ),
+  githubUrl: z.string().optional().or(z.literal('')),
+  demoUrl: z.string().optional().or(z.literal('')),
+  isDemoActive: z.union([z.boolean(), z.string()]).transform((val) => 
+    val === 'true' || val === true
+  ).default(true),
 });
 
-export type projectDto = z.infer<typeof projectSchema>['body'];
+// 2. 미들웨어에서 쓸 "요청 전체" 스키마
+export const projectSchema = z.object({
+  body: projectDataSchema
+});
+
+export type projectDto = z.infer<typeof projectDataSchema>;
