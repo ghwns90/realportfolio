@@ -12,10 +12,17 @@ export const getAllProjects = async () => {
 
 // 프로젝트 생성
 export const createProject = async (data: projectDto, file?: Express.Multer.File) => {
+
   const thumbnailUrl = file ? `/uploads/projects/${file.filename}` : null;
 
+  const lastProject = await prisma.project.findFirst({
+    orderBy: { order: 'desc' },
+  });
+
+  const nextOrder = lastProject ? lastProject.order + 1 : 1;
+
   return await prisma.project.create({
-    data: {...data, thumbnailUrl}
+    data: {...data, thumbnailUrl, order: nextOrder}
   });
 };
 

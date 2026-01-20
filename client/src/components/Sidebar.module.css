@@ -119,45 +119,122 @@
 }
 
 
+
 @media (max-width: 1024px) {
-  .sidebar {
-    display: flex;
-    flex-direction: column; /* 전체는 위아래 */
-    padding: 20px !important;
+  .sidebarCard {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    padding: 12px 20px !important; /* 위아래 패딩 최적화 */
+    gap: 15px;
+    height: auto !important; /* 높이를 고정하지 않음 */
+    overflow: visible !important; /* 💡 사진이 안 잘리게 함 */
+    position: relative;
   }
 
   /* 상단 프로필 영역 (이미지 + 이름/직함) */
-  .profileInfo {
+  .infoSection {
     display: flex;
+    flex-direction: row; /* 가로 */
     align-items: center;
-    gap: 15px;
-    text-align: left; /* 왼쪽 정렬 */
+    gap: 15px;    
   }
 
-  .avatar {
-    width: 80px !important; /* 💡 사진 크기 줄이기 */
+  .infoContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: left !important;
+  }
+
+  .avatarBox {
+    width: 80px !important;
     height: 80px !important;
+    margin: 0 !important;
+    border-radius: 12px;
+    overflow: hidden; /* 아바타 이미지만 둥글게 깎음 */
+    flex-shrink: 0; /* 공간 부족해도 안 찌그러지게 */
   }
 
-  /* 연락처 정보 (숨겨져 있다가 More Info 클릭 시 노출) */
-  .contactList {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* 💡 모바일 상세 정보는 2열이 예쁨 */
-    gap: 15px;
-    margin-top: 25px;
-    padding-top: 25px;
-    border-top: 1px solid #383838;
+  .avatarBox img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .name {
+    font-size: 1.6rem !important;
+    font-weight: 600;
+  }
+
+  .title {
+    font-size: 13px !important;
+    padding: 0px 20px !important;
+    margin-left: 1rem;
+  }
+
+  .moreInfo {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    margin-left: auto; /* 💡 우측 끝으로 밀어내기 */
+    gap: 12px;
+  }
+
+  /* 연락처 리스트와 구분선만 숨김 */
+  .contactsList, .separator {
+    display: none !important;
+  }
+
+  /* 3. 소셜 아이콘 스타일 */
+  .socialList {
+    display: flex !important; 
+    gap: 12px;
+  }
+
+  .socialLink {
+    font-size: 18px;
+    color: #d6d6d6;
   }
 
   .adminBtn {
-    top: 15px;
-    right: 15px;
-    margin: 0;
+    position: static !important; 
+    background: #383838;
+    color: #ffdb70;
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    order: 2; /* 소셜 아이콘보다 뒤에 배치하고 싶을 때 */
   }
 }
 
-@media (max-width: 700px) {
-  .contactList {
-    grid-template-columns: 1fr; /* 💡 아주 좁은 모바일은 다시 1열 */
+@media (max-width: 720px) {
+
+  .infoContent {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: left !important;
   }
+
+  .name {
+    font-size: 16px !important;
+    font-weight: 600;
+    padding: 0;
+    margin: 0;
+  }
+
+  .title {
+    font-size: 12px !important;
+    padding: 0;
+    margin: 0;
+  }
+
 }

@@ -20,6 +20,7 @@ interface Project {
   demoUrl?: string;
   isDemoActive: boolean;
   createdAt: string;
+  order: number;
 }
 
 const Projects: React.FC = () => {
@@ -44,6 +45,10 @@ const Projects: React.FC = () => {
     queryKey: ['adminProjects'],
     queryFn: () => authFetch(`${BASE_URL}/api/admin/projects`).then(res => res.json()),
   });
+
+  const sortedProjects = projects 
+  ? [...projects].sort((a, b) => a.order - b.order) 
+  : [];
 
   // Mutation (생성, 삭제, 토글)
   const createMutation = useMutation({
@@ -198,22 +203,29 @@ const Projects: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {projects?.map(p => (
-                <tr key={p.id}>
-                  <td>{p.title}</td>
-                  <td>
-                    <button 
-                      className={`${styles.toggleBtn} ${p.isDemoActive ? styles.on : styles.off}`}
-                      onClick={() => toggleMutation.mutate({ id: p.id, status: !p.isDemoActive })}
-                    >
-                      {p.isDemoActive ? 'Active (Live)' : 'Inactive'}
-                    </button>
-                  </td>
-                  <td>
-                    <button className={styles.deleteBtn} onClick={() => handleDelete(p.id)}><FaTrash /></button>
-                  </td>
-                </tr>
-              ))}
+              {projects?.map(p => {
+
+                const isToggling = toggleMutation.isPending && toggleMutation.variables?.id === p.id;
+
+                return (
+                  <tr key={p.id}>
+                    <td>{p.title}</td>
+                    <td>
+                      <button 
+                        className={`${styles.toggleBtn} ${p.isDemoActive ? styles.on : styles.off}`}
+                        onClick={() => toggleMutation.mutate({ id: p.id, status: !p.isDemoActive })}
+                        disabled={isToggling}
+                        style={{ opacity: isToggling ? 0.5 : 1, cursor: isToggling ? 'not-allowed' : 'pointer' }}
+                      >
+                        {isToggling ? 'Updating...' : (p.isDemoActive ? 'Active (Live)' : 'Inactive')}
+                      </button>
+                    </td>
+                    <td>
+                      <button className={styles.deleteBtn} onClick={() => handleDelete(p.id)}><FaTrash /></button>
+                    </td>
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>

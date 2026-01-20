@@ -1,11 +1,13 @@
 import { Router } from 'express';
 import * as profileController from '../controllers/profile.controller';
 import * as projectController from '../controllers/project.controller';
+import * as resumeController from '../controllers/resume.controller';
 import { authenticateJWT } from '../middlewares/authMiddleware';
 import { validate } from '../middlewares/validateMiddleware'; // 👈 검사기
 import { updateProfileSchema, changePasswordSchema } from '../dtos/profile.dto';
 import { upload } from '../lib/multer';
 import { projectSchema } from 'dtos/project.dto';
+import { resumeSchema } from 'dtos/resume.dto';
 
 const router = Router();
 
@@ -36,5 +38,14 @@ router.post('/projects', upload.single('thumbnail'), validate(projectSchema), pr
 router.patch('/projects/:id/status', projectController.toggleStatus);
 
 router.delete('/projects/:id', projectController.removeProject);
+
+//--------------------------이력관리---------------------------------
+router.get('/resumes', resumeController.listResumes);
+
+router.post('/resumes', validate(resumeSchema), resumeController.addResume);
+
+router.delete('/resumes/:id', resumeController.removeResume);
+
+router.patch('/resumes/:id/order', resumeController.updateOrder);
 
 export default router;

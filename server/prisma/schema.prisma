@@ -10,7 +10,7 @@ model Project {
   id            Int      @id @default(autoincrement())
   title         String   @db.VarChar(100)
   description   String   @db.Text
-  category      String   @default("Web Development")
+  category      String   @default("Web Development") 
   techStack     Json   
   thumbnailUrl  String?  @map("thumbnail_url") @db.Text
   githubUrl     String?  @map("github_url") @db.Text
@@ -42,12 +42,13 @@ model Profile {
 
 // 3. 학력/경력 모델 (Resume 탭)
 model Resume {
-  id          Int     @id @default(autoincrement())
-  type        String? @db.VarChar(20) // education, experience
-  title       String? @db.VarChar(100)
-  institution String? @db.VarChar(100)
-  period      String? @db.VarChar(50)
-  description String? @db.Text
+  id          Int      @id @default(autoincrement())
+  type        String   // education, experience
+  title       String  
+  period      String  
+  description String   @db.Text
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
 
   @@map("resume")
 }

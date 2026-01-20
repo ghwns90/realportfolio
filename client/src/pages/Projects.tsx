@@ -16,6 +16,11 @@ const Projects: React.FC = () => {
     queryFn: fetchProject,
   });
 
+  // 혹시 order순으로 정렬하려면 sortedProjects를 쓰면 된다
+  // const sortedProjects = projects 
+  // ? [...projects].sort((a, b) => a.order - b.order) 
+  // : [];
+
   if(isLoading) return <Loading />;
 
   return (

@@ -49,32 +49,61 @@
   position: relative;
 }
 
+.mobileTopBar {
+  display: none; /* PC에선 숨김 */
+}
+
+.hamburger {
+  display: none;
+  background: #2b2b2c;
+  border: 1px solid #383838;
+  color: #ffdb70;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 20px;
+  position: absolute;
+  
+  z-index: 20;
+}
+
+
+
 
 /* 모바일 반응형 (1024px 이하) */
 @media (max-width: 1024px) {
   /* 1. 전체 화면 정렬 해제 */
   .wrapper {
-    padding: 20px 0; /* 위아래 여백 조절 */
-    align-items: flex-start; /* 💡 중앙 정렬 대신 상단부터 차례대로 */
-    display: block; /* 💡 가로/세로 중앙 정렬이 필요 없으므로 일반 블록으로 전환 */
+    display: block;
+    padding: 0; /* 초기화 */
   }
 
   .container {
-    flex-direction: column; /* 세로 1열 */
+    flex-direction: column;
+    padding: 80px 15px 20px; /* 💡 80px 패딩을 줘서 상단바와 안 겹치게 함 */
+    gap: 20px;
     width: 100%;
-    max-width: 100%; /* 모바일은 꽉 차게 */
-    padding: 0 15px; /* 좌우 여백만 살짝 */
-    gap: 15px;
+    max-width: 100%;
+  }
+
+  .mobileTopBar {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 60px; /* 높이 고정 */
+    background: rgba(30, 30, 31, 0.9);
+    backdrop-filter: blur(15px);
+    z-index: 1000;
+    align-items: center; /* 상단 바 안에서 버튼 수직 중앙 */
+    padding: 0 15px;
+    border-bottom: 1px solid #383838;
   }
 
   .sidebar {
     width: 100% !important;
-    position: static; /* 💡 sticky를 풀어서 순서대로 쌓이게 함 */
-    top: 0; /* sticky 영향 제거 */
-    max-height: 110px; 
-    padding: 20px; /* 모바일에선 조금 더 슬림하게 */
-    overflow: hidden;
-    transition: max-height 0.3s ease-in-out;
+    max-height: auto !important; /* 💡 높이 제한 해제 (안의 내용에 맞게) */
+    position: static;
+    padding: 0; /* 내부 Sidebar 컴포넌트의 패딩을 믿음 */
   }
 
   /* 내일 쓸 기능 - 사이드바 확장 시 */
@@ -90,5 +119,21 @@
   .contentCard {
     padding: 20px;
     min-height: auto; /* 💡 모바일은 내용에 맞게 높이 조절 */
+  }
+
+  .hamburger {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+    width: 40px;
+    height: 40px;
+    background: #2b2b2c;
+    border: 1px solid #383838;
+    color: #ffdb70;
+    border-radius: 10px;
+    font-size: 24px;
+    padding: 0; 
+    line-height: 1; 
   }
 }

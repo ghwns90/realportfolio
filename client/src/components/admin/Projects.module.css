@@ -260,6 +260,56 @@ input, textarea {
 
 
 
+/* Resume table 부분 */
+.listWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 40px; /* 섹션 사이 간격 */
+  margin-top: 30px;
+
+}
+
+.orderBtns {
+  display: flex;
+  gap: 5px;
+}
+
+.tableSubTitle {
+  color: #ffdb70; /* 포인트 컬러 */
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  padding-left: 5px;
+  border-left: 4px solid #ffdb70;
+}
+
+.orderBtn {
+  background: #2b2b2c;
+  border: 1px solid #383838;
+  color: #d6d6d6;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 10px;
+  transition: 0.2s;
+}
+
+.orderBtn:hover:not(:disabled) {
+  background: #383838;
+  border-color: #ffdb70;
+  color: #ffdb70;
+}
+
+.orderBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* 테이블 내용 정렬 */
+.table td {
+  vertical-align: middle; /* 버튼들과 텍스트 높이 맞춤 */
+}
+
+
 /* 📱 모바일 반응형 (화면 너비 1000px 이하일 때) */
 @media (max-width: 1000px) {
   .mainGrid {
