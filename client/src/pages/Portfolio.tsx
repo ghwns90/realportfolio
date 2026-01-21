@@ -31,7 +31,7 @@ const Portfolio: React.FC = () => {
         <div className={styles.hLine}></div>
       </header>
 
-      {/* 📂 영상 스타일 카테고리 메뉴 */}
+      {/* 카테고리 메뉴 */}
       <ul className={styles.filterList}>
         {filters.map(f => (
           <li 

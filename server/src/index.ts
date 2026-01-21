@@ -8,6 +8,7 @@ import adminRoutes from './routes/admin.routes';
 import publicRoutes from './routes/public.routes';
 import path from 'path';
 import { authenticateJWT } from 'middlewares/authMiddleware';
+import { visitorLogger } from 'middlewares/visitorMiddleware';
 dotenv.config();
 
 const app = express();
@@ -21,11 +22,11 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use(visitorLogger);
 
 app.get('/', (req: Request, res: Response)=> {
   res.send('포트폴리오 서버가 정상적으로 돌아가고 있어, 선배!');
-})
-
+});
 
 //-----------------일반 라우터----------------
 app.use('/api', publicRoutes);

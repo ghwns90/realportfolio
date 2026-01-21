@@ -68,3 +68,20 @@ model RefreshToken {
   expiresAt DateTime // 언제 만료되는지 (DB에서도 자동 삭제 관리를 위해)
   createdAt DateTime @default(now())
 }
+
+// 방문자 기록
+model VisitorLog {
+  id        Int       @id @default(autoincrement())
+  ip        String?
+  path      String?
+  createdAt DateTime  @default(now())
+}
+
+// 관리자 활동 로그
+model ActivityLog {
+  id        Int      @id @default(autoincrement())
+  action    String   // 예: "CREATE", "UPDATE", "DELETE"
+  target    String   // 예: "PROJECT", "RESUME"
+  details   String   // 예: "React 포트폴리오 프로젝트 삭제"
+  createdAt DateTime @default(now())
+}

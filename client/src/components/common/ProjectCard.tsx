@@ -19,7 +19,7 @@ interface ProjectCardProps {
 
 const ProjectCard: React.FC<ProjectCardProps> = ({data, isPreview}) => {
 
-  const { title, description, thumbnailUrl, category, githubUrl, demoUrl, isDemoActive, techStack } = data;
+  const { title, thumbnailUrl, category, githubUrl, demoUrl, isDemoActive, techStack } = data;
   
   const imageUrl = thumbnailUrl ? (isPreview ? thumbnailUrl : `${BASE_URL}${thumbnailUrl}`) : null;
 

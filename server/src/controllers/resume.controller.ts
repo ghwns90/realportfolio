@@ -60,3 +60,17 @@ export const updateOrder = async (req: Request, res: Response) => {
   }
 
 };
+
+// 유저 화면용 리스트 조회
+export const getPublicResumes = async (req: Request, res: Response) => {
+
+  try {
+
+    const resumes = await resumeService.getPublicResumes();
+  
+    res.status(200).json(resumes);
+    
+  } catch (error) {
+    res.status(500).json({message: 'resume 리스트 불러오기 에러'});
+  }
+}

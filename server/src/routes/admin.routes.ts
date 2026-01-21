@@ -2,6 +2,7 @@ import { Router } from 'express';
 import * as profileController from '../controllers/profile.controller';
 import * as projectController from '../controllers/project.controller';
 import * as resumeController from '../controllers/resume.controller';
+import * as dashboardController from '../controllers/dashboard.controller';
 import { authenticateJWT } from '../middlewares/authMiddleware';
 import { validate } from '../middlewares/validateMiddleware'; // 👈 검사기
 import { updateProfileSchema, changePasswordSchema } from '../dtos/profile.dto';
@@ -47,5 +48,9 @@ router.post('/resumes', validate(resumeSchema), resumeController.addResume);
 router.delete('/resumes/:id', resumeController.removeResume);
 
 router.patch('/resumes/:id/order', resumeController.updateOrder);
+
+//--------------------------대쉬보드-------------------------------
+router.get('/dashboard', dashboardController.getDashboard);
+
 
 export default router;

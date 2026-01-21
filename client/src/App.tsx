@@ -11,6 +11,7 @@ import Profile from './components/admin/Profile';
 import Projects from './components/admin/Projects';
 import ResumeAdmin from './components/admin/Resume';     
 import Resume from './pages/Resume';
+import Dashboard from './components/admin/Dashboard';
 
 const App: React.FC = () => {
 
@@ -30,7 +31,7 @@ const App: React.FC = () => {
         {/* Admin */}
         <Route path="/admin" element={<RequireAuth><AdminLayout/></RequireAuth>}>
           <Route index element={<Navigate to="/admin/dashboard" replace />} />
-          <Route path="dashboard" element={<div><h1>대시보드 메인</h1><p>여기 차트 같은 거 넣을 예정</p></div>} />
+          <Route path="dashboard" element={<Dashboard/> } />
           
           {/* /admin/profile */}
           <Route path="profile" element={<Profile />}/>

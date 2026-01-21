@@ -1,8 +1,13 @@
-/* client/src/pages/Resume.module.css */
+.resumeContainer {
+  padding: 30px;
+}
+
 .title {
   color: var(--text-white);
   font-size: 32px;
+  font-weight: 600;
   margin-bottom: 20px;
+  position: relative;
 }
 
 .titleLine {
@@ -14,7 +19,8 @@
 }
 
 .timeline {
-  margin-bottom: 30px;
+  position: relative;
+  margin-bottom: 50px;
 }
 
 .titleWrapper {
@@ -25,7 +31,7 @@
 }
 
 .iconBox {
-  background: var(--bg-secondary);
+  background: var(--bg-secondary); /* 💡 기존보다 살짝 더 밝은 배경 */
   color: var(--accent-color);
   width: 48px;
   height: 48px;
@@ -33,20 +39,40 @@
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  box-shadow: var(--shadow);
+  /* 💡 글래스모피즘 느낌의 그림자와 광채 추가 */
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3), 
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05); 
   font-size: 20px;
+  position: relative;
+  z-index: 2; /* 선보다 위에 오도록 */
+}
+
+.iconBox::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: var(--accent-color);
+  filter: blur(5px);
+  opacity: 0.15; /* 💡 아주 살짝만 번지는 느낌 */
+  z-index: -1;
 }
 
 .sectionTitle {
   color: var(--text-white);
-  font-size: 24px;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.5px; /* 💡 글자 간격을 좁혀서 더 단단해 보이게 */
+  margin-left: 5px;
 }
 
-/* 타임라인 리스트 스타일 */
+/* 💡 타임라인의 핵심: 수직선 */
 .timelineList {
-  margin-left: 65px; /* 아이콘 위치와 맞추기 위한 여백 */
+  margin-left: 22px; /* 아이콘 중앙 위치에 맞춤 */
+  border-left: 1px solid var(--border-color); /* 💡 가상요소 대신 직접 border 사용 */
   list-style: none;
-  padding: 0;
+  padding: 0 0 0 45px; /* 선에서 텍스트까지의 거리 */
 }
 
 .timelineItem {
@@ -54,50 +80,64 @@
 }
 
 .timelineItem:not(:last-child) {
-  margin-bottom: 20px;
-  padding-bottom: 20px;
+  margin-bottom: 30px;
 }
 
-/* 수직선 그리기 */
+/* 💡 타임라인 점(Dot) - 영상처럼 화사하게 */
 .timelineItem::before {
   content: "";
   position: absolute;
-  top: -25px;
-  left: -38px;
-  width: 1px;
-  height: calc(100% + 20px);
-  background: var(--border-color);
-}
-
-/* 타임라인 점(Dot) */
-.timelineItem::after {
-  content: "";
-  position: absolute;
   top: 5px;
-  left: -42px;
-  width: 8px;
-  height: 8px;
+  left: -50.5px; /* border-left 선 위에 딱 맞춤 (45px + 보정) */
+  width: 10px;
+  height: 10px;
   background: var(--accent-gradient);
   border-radius: 50%;
-  box-shadow: 0 0 0 4px var(--border-color);
+  box-shadow: 0 0 0 4px var(--bg-main); /* 💡 배경색과 같은 색으로 테두리를 쳐서 선을 끊어주는 효과 */
+  z-index: 1;
+}
+
+.timelineItem:hover::before {
+  transform: scale(1.3);
+  background: var(--text-white); /* 혹은 더 밝은 골드 */
+  transition: all 0.3s ease;
+}
+
+.timelineItem:hover .itemTitle {
+  color: var(--accent-color);
+  transition: color 0.3s ease;
 }
 
 .itemTitle {
   color: var(--text-white);
   font-size: 16px;
-  margin-bottom: 7px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  line-height: 1.3;
 }
 
 .itemDate {
-  color: var(--accent-color);
+  color: var(--accent-color); /* 💡 강조색 (보통 #FFDB70) */
   font-size: 14px;
   font-weight: 400;
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .itemText {
   color: var(--text-gray);
-  font-size: 14px;
+  font-size: 14.5px;
+  font-weight: 300;
   line-height: 1.6;
+}
+
+/* 🆕 섹션 사이를 가르는 아주 연한 선 (마지막 섹션 제외) */
+.timeline:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  bottom: -25px; /* 여백의 중간 지점 */
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, rgba(56, 56, 56, 0.5), transparent); /* 💡 왼쪽에서 오른쪽으로 흐려지는 선 */
 }
