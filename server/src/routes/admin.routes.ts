@@ -3,6 +3,7 @@ import * as profileController from '../controllers/profile.controller';
 import * as projectController from '../controllers/project.controller';
 import * as resumeController from '../controllers/resume.controller';
 import * as dashboardController from '../controllers/dashboard.controller';
+import * as contactController from '../controllers/contact.controller';
 import { authenticateJWT } from '../middlewares/authMiddleware';
 import { validate } from '../middlewares/validateMiddleware'; // 👈 검사기
 import { updateProfileSchema, changePasswordSchema } from '../dtos/profile.dto';
@@ -12,9 +13,8 @@ import { resumeSchema } from 'dtos/resume.dto';
 
 const router = Router();
 
-//---------------------------프로필---------------------------------
 router.use(authenticateJWT);
-
+//---------------------------프로필---------------------------------
 // 프로필 조회
 router.get('/profile', profileController.getProfile);
 // 프로필 수정
@@ -52,5 +52,8 @@ router.patch('/resumes/:id/order', resumeController.updateOrder);
 //--------------------------대쉬보드-------------------------------
 router.get('/dashboard', dashboardController.getDashboard);
 
+router.patch('/contacts/:id/reply', contactController.sendReply);
+
+router.get('/contacts', contactController.getMessages); 
 
 export default router;

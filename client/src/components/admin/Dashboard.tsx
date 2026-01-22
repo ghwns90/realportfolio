@@ -1,12 +1,12 @@
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React, { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { authFetch } from '../../utils/authFetch';
 import { BASE_URL } from '../../constants/api';
-import { FaProjectDiagram, FaFileAlt, FaUsers, FaHistory } from 'react-icons/fa';
+import { FaProjectDiagram, FaFileAlt, FaUsers, FaHistory, FaEnvelope, FaPaperPlane, FaChevronLeft, FaChevronRight, FaCheckCircle, FaTimes } from 'react-icons/fa';
 import styles from './Dashboard.module.css';
 import Loading from '../Loading';
 import {
-  LineChart, Line, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart
+  BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart
 } from 'recharts';
 
 interface DashboardData {
@@ -14,6 +14,7 @@ interface DashboardData {
     projectCount: number;
     resumeCount: number;
     totalVisitors: number;
+    unreadMessages: number;
   };
   topTechs: Array<{
     name: string;
@@ -28,6 +29,23 @@ interface DashboardData {
   visitorStats: Record<string, number>;
 }
 
+interface PaginatedMessages {
+  items: ContactMessage[];
+  total: number;
+  totalPages: number;
+}
+
+interface ContactMessage {
+  id: number;
+  name: string;
+  email: string;
+  message: string;
+  isRead: boolean;
+  replyContent: string | null;
+  repliedAt: string | null;
+  createdAt: string;
+}
+
 interface StatCardProps {
   title: string;
   value: number;
@@ -37,10 +55,41 @@ interface StatCardProps {
 
 const Dashboard: React.FC = () => {
 
+  const queryClient = useQueryClient();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedMsg, setSelectedMsg] = useState<ContactMessage | null>(null); // 모달용
+  const [replyText, setReplyText] = useState("");
+  const itemsPerPage = 5;
+
+  const { data: messageData } = useQuery<PaginatedMessages>({
+    queryKey: ['adminMessages', currentPage],
+    queryFn: () => authFetch(`${BASE_URL}/api/admin/contacts?page=${currentPage}&limit=${itemsPerPage}`).then(res => res.json())
+  });
+
   const { data, isLoading } = useQuery<DashboardData>({
     queryKey: ['adminDashboard'],
     queryFn: () => authFetch(`${BASE_URL}/api/admin/dashboard`).then(res => res.json()),
   });
+
+  const replyMutation = useMutation({
+    mutationFn: ({ id, content }: {id: number; content: string}) => 
+      authFetch(`${BASE_URL}/api/admin/contacts/${id}/reply`, {
+        method: 'PATCH',
+        body: JSON.stringify({ replyContent: content })
+      }),
+    onSuccess: ()=> {
+      alert('Reply sent!');
+      setSelectedMsg(null);
+      setReplyText("");
+      queryClient.invalidateQueries({ queryKey: ['adminDashboard']});
+      queryClient.invalidateQueries({queryKey: ['adminMessages']});
+    },   
+  });
+
+  const handleReplyClick = ( msg : ContactMessage ) => {
+    setSelectedMsg(msg);
+
+  }
 
   // Recharts용 데이터 변환 (Object -> Array)
   // Recharts는 데이터를 객체 배열([{ date: '...', count: 10 }, ...]) 형태로 받기를 좋아함. 
@@ -67,6 +116,7 @@ const Dashboard: React.FC = () => {
         <StatCard title="Projects" value={data.counts.projectCount} icon={<FaProjectDiagram />} color="#ffdb70" />
         <StatCard title="Resume Items" value={data.counts.resumeCount} icon={<FaFileAlt />} color="#70d6ff" />
         <StatCard title="Total Visitors" value={data.counts.totalVisitors} icon={<FaUsers />} color="#ff70d6" />
+        <StatCard title="Unread Messages" value={data.counts.unreadMessages} icon={<FaEnvelope />} color={data.counts.unreadMessages > 0 ? "#ff7070" : "#70ff9a"} />
       </div>
 
       {/* 주간 방문자 추이 그래프 */}
@@ -142,7 +192,6 @@ const Dashboard: React.FC = () => {
                   radius={[0, 4, 4, 0]} // 💡 막대 오른쪽 끝만 둥글게
                   barSize={20}
                 >
-                  {/* 💡 각 막대에 그라데이션이나 색상을 입힐 수 있습니다 */}
                   {data.topTechs.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={index === 0 ? '#ffdb70' : '#ffdb7080'} />
                   ))}
@@ -174,7 +223,121 @@ const Dashboard: React.FC = () => {
             ))}
           </ul>
         </section>
-      </div>
+
+        {/* 메일 섹션 */}
+        <section className={styles.card} style={{ gridColumn: '1 / -1' }}>
+          <div className={styles.cardHeader}>
+            <h3 className={styles.cardTitle}><FaEnvelope /> Inbound Messages</h3>
+            <span className={styles.countBadge}>{messageData?.total || 0} Total</span>
+          </div>
+        
+          <div className={styles.tableWrapper}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>Sender</th>
+                  <th>Message Snippet</th>
+                  <th>Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {messageData?.items.map((msg) => (
+                  <tr key={msg.id} className={msg.isRead ? styles.readRow : styles.unreadRow}>
+                    <td>
+                      {msg.repliedAt ? (
+                        <span className={`${styles.badge} ${styles.replied}`}><FaCheckCircle /> Replied</span>
+                      ) : msg.isRead ? (
+                        <span className={`${styles.badge} ${styles.read}`}>Read</span>
+                      ) : (
+                        <span className={`${styles.badge} ${styles.new}`}>New</span>
+                      )}
+                    </td>
+                    <td>
+                      <div className={styles.senderInfo}>
+                        <span className={styles.senderName}>{msg.name}</span>
+                        <span className={styles.senderEmail}>{msg.email}</span>
+                      </div>
+                    </td>
+                    <td className={styles.msgPreview}>{msg.message}</td>
+                    <td className={styles.dateText}>{new Date(msg.createdAt).toLocaleDateString()}</td>
+                    <td>
+                      <button className={styles.replyButton} onClick={() => handleReplyClick(msg)}>
+                        {msg.repliedAt ? '✔️' : 'view'}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* 4. 페이지네이션 컨트롤 */}
+          <div className={styles.pagination}>
+            <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}><FaChevronLeft /></button>
+            <span className={styles.pageIndicator}><strong>{currentPage}</strong> of {messageData?.totalPages}</span>
+            <button onClick={() => setCurrentPage(p => Math.min(messageData?.totalPages || 1, p + 1))} disabled={currentPage === messageData?.totalPages}><FaChevronRight /></button>
+          </div>
+        </section>
+
+        {/* 답장 모달  */}
+        {selectedMsg && (
+          <div className={styles.modalOverlay} onClick={() => setSelectedMsg(null)}>
+            <div className={styles.modal} onClick={e => e.stopPropagation()}>
+              <div className={styles.modalHeader}>
+                <div className={styles.senderHeader}>
+                  <h4>{selectedMsg.name}</h4>
+                  <p className={styles.messageFrom}>({selectedMsg.email})</p>
+                </div>
+                <button className={styles.closeIconBtn} onClick={() => setSelectedMsg(null)}>
+                  <FaTimes />
+                </button>
+              </div>
+              
+              <div className={styles.modalBody}>
+                {/* 원본 메시지 */}
+                <div className={styles.contentGroup}>
+                  <div className={styles.messageContentBox}>
+                    {selectedMsg.message}
+                  </div>
+                </div>
+                
+                {/* 답장 영역 */}
+                <div className={styles.contentGroup}>
+                  {selectedMsg.repliedAt ? (
+                    <div className={styles.replyHistoryBox}>
+                      <span className={styles.replyDate}>{new Date(selectedMsg.repliedAt).toLocaleString()}</span>
+                      <p className={styles.replyText}>{selectedMsg.replyContent}</p>
+                    </div>
+                  ) : (
+                    <textarea 
+                      className={styles.fancyTextArea}
+                      placeholder="상대방에게 전달될 답변 내용을 입력하세요..."
+                      value={replyText}
+                      onChange={(e) => setReplyText(e.target.value)}
+                    />
+                  )}
+                </div>
+              </div>
+              
+              {/* 전송 버튼 */}
+              {!selectedMsg.repliedAt && (
+                <div className={styles.modalFooter}>
+                  <button className={styles.cancelBtn} onClick={() => setSelectedMsg(null)}>Cancel</button>
+                  <button 
+                    className={styles.sendActionButton}
+                    onClick={() => replyMutation.mutate({ id: selectedMsg.id, content: replyText })}
+                    disabled={replyMutation.isPending || !replyText}
+                  >
+                    <FaPaperPlane /> {replyMutation.isPending ? 'Sending...' : 'Send Reply'}
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )} 
+      </div> 
     </div>
   );
 };

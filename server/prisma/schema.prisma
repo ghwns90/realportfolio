@@ -85,3 +85,14 @@ model ActivityLog {
   details   String   // 예: "React 포트폴리오 프로젝트 삭제"
   createdAt DateTime @default(now())
 }
+
+model ContactMessage {
+  id Int @id @default(autoincrement())
+  name String
+  email String
+  message String @db.Text
+  isRead Boolean @default(false)
+  replyContent String? @db.Text
+  repliedAt DateTime?
+  createdAt DateTime @default(now())
+}

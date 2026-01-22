@@ -3,10 +3,11 @@ import { prisma } from '../lib/prisma';
 export const getDashBoardStats = async () => {
 
   // 병렬 쿼리로 전체 개수 가져오기
-  const [projectCount, resumeCount, totalVisitors] = await Promise.all([
+  const [projectCount, resumeCount, totalVisitors, unreadMessages] = await Promise.all([
     prisma.project.count(),
     prisma.resume.count(),
     prisma.visitorLog.count(),
+    prisma.contactMessage.count({ where: {isRead : false}}),
   ]);
 
   // 기술스택 분포 계산
@@ -51,7 +52,7 @@ export const getDashBoardStats = async () => {
   });
 
   return {
-    counts: { projectCount, resumeCount, totalVisitors },
+    counts: { projectCount, resumeCount, totalVisitors, unreadMessages },
     topTechs,
     visitorStats,
     recentActivities,

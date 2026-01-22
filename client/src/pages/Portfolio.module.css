@@ -1,5 +1,5 @@
 .portfolioPage {
-    padding: 30px;
+    padding: 10px;
 }
 
 .articleTitle {
@@ -44,6 +44,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
+    row-gap: 50px;
 }
 
 .filterList {
