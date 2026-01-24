@@ -12,7 +12,7 @@ import { visitorLogger } from 'middlewares/visitorMiddleware';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = Number(process.env.PORT) || 5000;
 
 app.use(cors({
   // 쿠키사용 시 필수
@@ -39,7 +39,7 @@ app.use('/api/admin', authenticateJWT, adminRoutes);
 
 
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`
   ################################################
   🛡️  Server listening on port: ${PORT} 🛡️

@@ -1,5 +1,6 @@
 .resumeContainer {
   padding: 10px;
+  min-height: 100vh;
 }
 
 .title {

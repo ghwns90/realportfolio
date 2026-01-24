@@ -1,5 +1,6 @@
 .aboutPage {
   padding: 10px;
+  min-height: 100vh;
 }
 
 .articleTitle {

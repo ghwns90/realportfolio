@@ -1,3 +1,5 @@
+import { prisma } from "lib/prisma";
+
 export const recordActivity = async (action: string, target: string, details: string) => {
 
   try {
