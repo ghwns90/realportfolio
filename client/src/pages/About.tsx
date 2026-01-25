@@ -35,7 +35,7 @@ const About: React.FC = () => {
             <div className={styles.serviceContentBox}>
               <h4 className={styles.serviceItemTitle}>{cat.title}</h4>
               <div className={styles.userTagWrapper}>
-                {profile.techStack?.[cat.key]?.map((tag: string) => (
+                {profile?.techStack?.[cat.key]?.map((tag: string) => (
                   <span key= {tag} className={`${styles.userTag} ${styles[cat.key]}`}>
                     {tag}
                   </span>
