@@ -11,8 +11,6 @@ const About: React.FC = () => {
     { key: 'backend', title: '백', icon: '🖥️' },
     { key: 'devops', title: '기타', icon: '🚀' },
   ];
-  
-  if (!profile) return null;
 
   if(isLoading) return <Loading />;
 

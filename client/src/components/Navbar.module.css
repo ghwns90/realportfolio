@@ -39,3 +39,9 @@
 .active {
   color: var(--accent-color) !important;
 }
+
+@media (max-width: 1024px) {
+  .navbar {
+    display: none;
+  }
+}

@@ -12,6 +12,7 @@
   display: flex;
   width: 90%  ; /* 전체 너비 */
   max-width: 95%;
+  min-height: 100vh;
   gap: 25px;
   margin: 0 auto;
   padding: 60px 20px;
@@ -114,6 +115,7 @@
   .mainContent {
     width: 100%;
     margin-top: 0; /* 겹침 방지 */
+    min-height: 100vh;
   }
 
   .contentCard {
