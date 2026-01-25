@@ -3,6 +3,7 @@ import * as profileService from '../services/profile.service';
 import { UpdateProfileDto, ChangePasswordDto } from '../dtos/profile.dto';
 import fs from 'fs';
 import path from 'path';
+import { supabase } from '../lib/supabase';
 
 // 프로필 조회
 export const getProfile = async (req: Request, res: Response) => {
@@ -61,12 +62,37 @@ export const updatePassword = async (req: Request, res: Response) => {
 // 프로필 사진 업데이트
 export const updateAvatar = async (req: Request, res: Response) => {
   try {
-    if(!req.file) return res.status(400).json({ message: '파일이 업로드되지 않았습니다.' });
+    
+    const file = req.file;
+    
+    if (!file) {
+      return res.status(400).json({ message: '이미지 파일이 없습니다.' });
+    }
 
-    const newAvatarUrl = await profileService.updateUserProfileImage(1, req.file);
+    const fileExt = file.originalname.split('.').pop();
+    const fileName = `avatar_${Date.now()}.${fileExt}`;
+    const filePath = `profiles/${fileName}`;
 
-    res.status(200).json({ url: newAvatarUrl });
+    // supabase 업로드
+    const {error: uploadError} = await supabase.storage
+      .from('portfolio')
+      .upload(filePath, file.buffer, {
+        contentType: file.mimetype,
+        upsert: false,
+    });
 
+    if(uploadError) throw uploadError;
+
+    const { data } = supabase.storage
+      .from('portfolio')
+      .getPublicUrl(filePath);
+
+    const avatarUrl = data.publicUrl;        
+    
+    const newAvatarUrl = await profileService.updateUserProfileImage(1, avatarUrl);
+
+    res.status(201).json({url: newAvatarUrl});
+    
   }catch(err){
     console.error(err);
     res.status(500).json({ message: '이미지 저장 중 에러 발생 '});

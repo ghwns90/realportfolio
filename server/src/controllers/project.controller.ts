@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import * as projectService from '../services/project.service';
 import { projectDataSchema, projectDto } from '../dtos/project.dto'
+import { supabase } from 'lib/supabase';
 
 // 프로젝트 목록 가져오기
 export const listProjects = async (req: Request, res: Response) => {
@@ -16,10 +17,54 @@ export const listProjects = async (req: Request, res: Response) => {
 // 프로젝트 추가
 export const addProject = async (req: Request, res: Response) => {
   try {
-    
-    const validatedData = projectDataSchema.parse(req.body);
 
-    const project = await projectService.createProject(validatedData, req.file);
+    const file = req.file;
+    let thumbnailUrl = '';
+
+    if(file) {
+      // 파일 이름 만들기
+      const fileExt = file.originalname.split('.').pop();
+      const fileName = `${Date.now()}_${Math.round(Math.random() * 1E9)}.${fileExt}`;
+
+      // 저장 경로 정하기 supabase 버킷 안에서의 경로 projects/파일이름
+      const filePath = `projects/${fileName}`;
+
+      // Supabase로 전송
+      const { error: uploadError } = await supabase.storage
+        .from('portfolio')
+        .upload(filePath, file.buffer, {
+          contentType: file.mimetype,
+          upsert: false,
+      });
+
+      if(uploadError) throw uploadError;
+
+      const { data: publicUrlData } = supabase.storage
+        .from('portfolio')
+        .getPublicUrl(filePath);
+      
+      thumbnailUrl = publicUrlData.publicUrl;
+        
+    }
+
+    // FormData로 온 데이터 전처리
+    let bodyData = { ...req.body };
+    
+    // techStack이 문자열로 왔다면 배열로 변환
+    if (typeof bodyData.techStack === 'string') {
+      try {
+        // JSON 문자열인 경우 ('["React", "Node"]')
+        bodyData.techStack = JSON.parse(bodyData.techStack);
+      } catch {
+        // 그냥 콤마로 구분된 문자열인 경우 ('React,Node')
+        bodyData.techStack = bodyData.techStack.split(',').map((s: string) => s.trim());
+      }
+    }
+    
+    // DB 저장
+    const validatedData = projectDataSchema.parse(bodyData);
+
+    const project = await projectService.createProject(validatedData, thumbnailUrl);
 
     res.status(201).json(project);
 

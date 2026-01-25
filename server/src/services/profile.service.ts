@@ -1,8 +1,7 @@
 import { prisma } from '../lib/prisma';
 import bcrypt from 'bcryptjs';
 import { UpdateProfileDto } from '../dtos/profile.dto';
-import fs from 'fs';
-import path from 'path';
+import { supabase } from '../lib/supabase';
 import { recordActivity } from './log.service';
 
 // 프로필 조회
@@ -79,30 +78,46 @@ export const changeAdminPassword = async (adminId: number, current: string, newP
 };
 
 // 프로필 이미지 업데이트
-export const updateUserProfileImage = async (profileId: number, file: Express.Multer.File) => {
+export const updateUserProfileImage = async (profileId: number, avatarUrl: string) => {
 
   const currentProfile = await prisma.profile.findUnique({ where: {id : profileId}});
 
-  if(currentProfile?.avatarUrl){
-    
-    const oldFilePath = path.join(__dirname, '../../', currentProfile.avatarUrl);
+  // 옛날 사진이 있다면 supabase 에서 삭제
+  if(currentProfile?.avatarUrl) {
+    try {
+      // url 에서 '파일명'만 추출
+      const oldUrl = currentProfile.avatarUrl;
+      const bucketName = 'portfolio';
 
-    if(fs.existsSync(oldFilePath)){
-      fs.unlinkSync(oldFilePath);
-      console.log(`🗑️ 이전 이미지 삭제 완료: ${oldFilePath}`);
+      if(oldUrl.includes(bucketName)) {
+        const oldPath = oldUrl.split(`/${bucketName}/`)[1];
+
+        if(oldPath) {
+          // supabase에 삭제 요청
+          const { error } = await supabase.storage
+            .from(bucketName)
+            .remove([oldPath]);
+
+          if(error) {
+            console.error('Supabase 이미지 삭제 실패:', error.message);
+          }else {
+            console.log('Supabase 이전 이미지 삭제 완료:', oldPath);
+          }
+        }
+      }
+    } catch (error) {
+      console.error('이미지 삭제 중 에러 무시하고 진행:', error);
     }
   }
-
-  const newAvatarUrl = `/uploads/profiles/${file.filename}`;
-
+  // DB 업데이트
   await prisma.profile.update({
     where: {id: profileId},
-    data: { avatarUrl: newAvatarUrl },
-  });
+    data: { avatarUrl: avatarUrl },
+  }); 
 
   await recordActivity('UPDATE', 'PROFILEIMAGE', '프로필 이미지를 변경하였습니다.');
 
-  return newAvatarUrl;
+  return avatarUrl;
 }
 
 // 화면용 프로필 가져오기

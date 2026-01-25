@@ -34,7 +34,7 @@ const Sidebar: React.FC = () => {
       <div className={styles.infoSection}>
         <figure className={styles.avatarBox}>
           <img 
-            src={profile?.avatarUrl ? `${BASE_URL}${profile.avatarUrl}` : "/images/my-avatar.jpg"} 
+            src={profile.avatarUrl || '/images/my-avatar.png'} 
             alt={profile?.name} width="120" style={{borderRadius: '50%'}} 
           />
         </figure>

@@ -190,7 +190,7 @@ const Profile: React.FC = () => {
             <div className={styles.avatarWrapper}>
               <div className={styles.avatarPreview}>
                 <img 
-                  src={profile.avatarUrl ? `${BASE_URL}${profile.avatarUrl}` : '/images/my-avatar.png'} 
+                  src={profile.avatarUrl || '/images/my-avatar.png'}
                   alt="Profile" 
                 />
                 <label className={styles.uploadBtn}>

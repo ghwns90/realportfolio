@@ -92,6 +92,15 @@ const Projects: React.FC = () => {
   // 핸들러 함수
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
+    if(file){
+      if(file.size > 10 * 1024 * 1024) {
+        alert("이미지 용량이 너무 큽니다! (10MB 이하로 올려주세요");
+        e.target.value = "";
+        return;
+      }
+    }
+
     if(file){
       setThumbnail(file);
       setPreviewUrl(URL.createObjectURL(file));

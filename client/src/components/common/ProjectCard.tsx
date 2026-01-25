@@ -21,7 +21,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({data, isPreview}) => {
 
   const { title, thumbnailUrl, category, githubUrl, demoUrl, isDemoActive, techStack } = data;
   
-  const imageUrl = thumbnailUrl ? (isPreview ? thumbnailUrl : `${BASE_URL}${thumbnailUrl}`) : null;
+  const imageUrl = thumbnailUrl 
+  ? (isPreview || thumbnailUrl.startsWith('http') 
+      ? thumbnailUrl 
+      : `${BASE_URL}${thumbnailUrl}`) 
+  : null;
 
   return (
     <div className={`${styles.card} ${isPreview ? styles.previewMode : ''}`}>
