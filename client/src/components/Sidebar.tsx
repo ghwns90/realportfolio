@@ -41,7 +41,7 @@ const Sidebar: React.FC = () => {
 
         <div className={styles.infoContent}>
           <h1 className={styles.name}>{profile?.name}</h1>
-          <p className={styles.title}>{profile?.role}</p>          
+          <span className={styles.title}>{profile?.role}</span>          
         </div>
       </div>
 
