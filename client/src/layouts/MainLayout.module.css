@@ -10,7 +10,7 @@
 
 .container {
   display: flex;
-  width: 90%  ; /* 전체 너비 */
+  width: 80%  ; /* 전체 너비 */
   max-width: 95%;
   min-height: 100vh;
   gap: 25px;

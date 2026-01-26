@@ -48,7 +48,7 @@
 
 .inputWrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;  
   gap: 20px;
 }
 
@@ -60,6 +60,8 @@
   color: var(--text-white);
   font-size: 15px;
   transition: var(--transition-smooth);
+  width: 100%; 
+  box-sizing: border-box;
 }
 
 .formInput:focus {
@@ -83,4 +85,10 @@
 .formBtn:hover {
   filter: brightness(1.1);
   transform: translateY(-2px);
+}
+
+@media (max-width: 1024px) {
+  .inputWrapper {    
+    grid-template-columns: 1fr;
+  }
 }
