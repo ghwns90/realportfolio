@@ -43,6 +43,14 @@ const Profile: React.FC = () => {
     devops: '',
   });
 
+  const getImageUrl = (url? : string) => {
+    if(url?.startsWith('http')) {
+      return url;
+    }else{
+      return `${BASE_URL}${url}`;
+    }
+  }
+
   const fetchProfile = async () => {
     try {
       setLoading(true);
@@ -190,7 +198,7 @@ const Profile: React.FC = () => {
             <div className={styles.avatarWrapper}>
               <div className={styles.avatarPreview}>
                 <img 
-                  src={profile.avatarUrl || '/images/my-avatar.png'}
+                  src={getImageUrl(profile.avatarUrl)}
                   alt="Profile" 
                 />
                 <label className={styles.uploadBtn}>

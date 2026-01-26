@@ -6,10 +6,10 @@ const About: React.FC = () => {
   const { data: profile , isLoading } = useProfile();
 
   // 반복되는 카드 구조를 위해 배열 정의
-  const categories: { key: 'frontend' | 'backend' | 'devops'; title: string; icon: string }[] = [
-    { key: 'frontend', title: '프론트', icon: '🌐' },
-    { key: 'backend', title: '백', icon: '🖥️' },
-    { key: 'devops', title: '기타', icon: '🚀' },
+  const categories: { key: 'frontend' | 'backend' | 'devops'; title: string;}[] = [
+    { key: 'frontend', title: 'frontend' },
+    { key: 'backend', title: 'backend' },
+    { key: 'devops', title: 'devops' },
   ];
 
   if(isLoading) return <Loading />;
@@ -31,7 +31,6 @@ const About: React.FC = () => {
       <ul className={styles.serviceList}>
         {categories.map((cat)=> (
           <li key={cat.key} className={styles.serviceItem}>
-            <div className={styles.serviceIconBox}>{cat.icon}</div>
             <div className={styles.serviceContentBox}>
               <h4 className={styles.serviceItemTitle}>{cat.title}</h4>
               <div className={styles.userTagWrapper}>

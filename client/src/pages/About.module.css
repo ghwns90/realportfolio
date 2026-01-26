@@ -56,21 +56,16 @@
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-.serviceIconBox {
-  font-size: 30px; /* 이모지 크기 */
-  margin-top: 5px;
-}
-
 .serviceItemTitle {
   color: #fafafa;
   font-size: 18px;
   font-weight: 600;
-  margin-bottom: 10px;
+  margin: 0
 }
 
 .serviceItemText {
   color: #d6d6d6;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1.5;
 }
 

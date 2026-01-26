@@ -13,6 +13,13 @@ const Sidebar: React.FC = () => {
 
   const { data: profile, isLoading } = useProfile();
 
+  // 프로필사진 로컬인지, 배포환경인지
+  const getImageUrl = (url?: string) => {
+    if (!url) return '/images/my-avatar.png';  // 1. 없으면 기본 이미지
+    if (url.startsWith('http')) return url;    // 2. Supabase URL이면 그대로 (https://...)
+    return `${BASE_URL}${url}`;                // 3. 로컬 경로(/uploads/...)면 앞에 서버주소 붙이기
+  };
+
   const handleAdminClick = () => {
     const token = localStorage.getItem('accessToken');
     // 토큰있으면 RequireAuth가 알아서 걸러줌
@@ -34,7 +41,7 @@ const Sidebar: React.FC = () => {
       <div className={styles.infoSection}>
         <figure className={styles.avatarBox}>
           <img 
-            src={profile.avatarUrl || '/images/my-avatar.png'} 
+            src={getImageUrl(profile?.avatarUrl)} 
             alt={profile?.name} width="120" style={{borderRadius: '50%'}} 
           />
         </figure>

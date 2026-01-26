@@ -32,7 +32,7 @@
 }
 
 .sidebar {
-  width: 280px;
+  width: 320px;
   padding: 30px;
   position: sticky; /* 스크롤 내려도 고정! */
   top: 60px;
