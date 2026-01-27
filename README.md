@@ -82,15 +82,15 @@
 ---
 
 ## 이미지
-<div style="display: flex; gap: 10px;">
-<img width="48%" height="300px" style="object-fit: cover; alt="스크린샷 2026-01-27 215139" src="https://github.com/user-attachments/assets/d295516b-5de3-467f-bdfb-22631818d3b6" />
-<img width="48%" height="300px" style="object-fit: cover; alt="스크린샷 2026-01-27 215157" src="https://github.com/user-attachments/assets/ffb9e093-e8a9-4eff-b88a-3398c81ac8aa" />
-<img width="48%" height="300px" style="object-fit: cover; alt="스크린샷 2026-01-27 215220" src="https://github.com/user-attachments/assets/f7469db1-4363-4cbd-a6c9-8c4ce52580ea" />
-<img width="48%" height="300px" style="object-fit: cover; alt="스크린샷 2026-01-27 215238" src="https://github.com/user-attachments/assets/5b2ad64b-8d12-46e6-9e8a-d5631cc28eaf" />
-<img width="48%" height="300px" style="object-fit: cover; alt="스크린샷 2026-01-27 215335" src="https://github.com/user-attachments/assets/06ae7e23-5587-48b3-a8a2-2760c44138a8" />
-<img width="48%" height="300px" style="object-fit: cover; alt="스크린샷 2026-01-27 215349" src="https://github.com/user-attachments/assets/206ac62d-f88d-40cc-970c-9457e95eb7d2" />
-<img width="48%" height="300px" style="object-fit: cover; alt="스크린샷 2026-01-27 215404" src="https://github.com/user-attachments/assets/f6f98bce-9c3b-4a35-a192-6d2cfa783350" />
-<img width="48%" height="300px" style="object-fit: cover; alt="스크린샷 2026-01-27 215420" src="https://github.com/user-attachments/assets/966aaf66-519e-43bf-af7c-67c77e03ea5f" />
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px;">
+<img width="48%" alt="스크린샷 2026-01-27 215139" src="https://github.com/user-attachments/assets/d295516b-5de3-467f-bdfb-22631818d3b6" />
+<img width="48%" alt="스크린샷 2026-01-27 215157" src="https://github.com/user-attachments/assets/ffb9e093-e8a9-4eff-b88a-3398c81ac8aa" />
+<img width="48%" alt="스크린샷 2026-01-27 215220" src="https://github.com/user-attachments/assets/f7469db1-4363-4cbd-a6c9-8c4ce52580ea" />
+<img width="48%" alt="스크린샷 2026-01-27 215238" src="https://github.com/user-attachments/assets/5b2ad64b-8d12-46e6-9e8a-d5631cc28eaf" />
+<img width="48%" alt="스크린샷 2026-01-27 215335" src="https://github.com/user-attachments/assets/06ae7e23-5587-48b3-a8a2-2760c44138a8" />
+<img width="48%" alt="스크린샷 2026-01-27 215349" src="https://github.com/user-attachments/assets/206ac62d-f88d-40cc-970c-9457e95eb7d2" />
+<img width="48%" alt="스크린샷 2026-01-27 215404" src="https://github.com/user-attachments/assets/f6f98bce-9c3b-4a35-a192-6d2cfa783350" />
+<img width="48%" alt="스크린샷 2026-01-27 215420" src="https://github.com/user-attachments/assets/966aaf66-519e-43bf-af7c-67c77e03ea5f" />
 </div>
 
 ## 🚀 Getting Started
