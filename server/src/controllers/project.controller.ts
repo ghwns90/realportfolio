@@ -1,27 +1,28 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import * as projectService from '../services/project.service';
 import { projectDataSchema, projectDto } from '../dtos/project.dto'
 import { supabase } from 'lib/supabase';
+import { AppError } from '../utils/AppError';
 
 // 프로젝트 목록 가져오기
-export const listProjects = async (req: Request, res: Response) => {
+export const listProjects = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const projects = await projectService.getAllProjects();
+
     res.json(projects);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({message: '프로젝트 가져오는 중 서버 에러', error});
+    next(error);
   }
 };
 
 // 프로젝트 추가
-export const addProject = async (req: Request, res: Response) => {
+export const addProject = async (req: Request, res: Response, next: NextFunction) => {
   try {
 
     const file = req.file;
     let thumbnailUrl = '';
 
-    if(file) {
+    if (file) {
       // 파일 이름 만들기
       const fileExt = file.originalname.split('.').pop();
       const fileName = `${Date.now()}_${Math.round(Math.random() * 1E9)}.${fileExt}`;
@@ -35,21 +36,21 @@ export const addProject = async (req: Request, res: Response) => {
         .upload(filePath, file.buffer, {
           contentType: file.mimetype,
           upsert: false,
-      });
+        });
 
-      if(uploadError) throw uploadError;
+      if (uploadError) throw uploadError;
 
       const { data: publicUrlData } = supabase.storage
         .from('portfolio')
         .getPublicUrl(filePath);
-      
+
       thumbnailUrl = publicUrlData.publicUrl;
-        
+
     }
 
     // FormData로 온 데이터 전처리
     let bodyData = { ...req.body };
-    
+
     // techStack이 문자열로 왔다면 배열로 변환
     if (typeof bodyData.techStack === 'string') {
       try {
@@ -60,7 +61,7 @@ export const addProject = async (req: Request, res: Response) => {
         bodyData.techStack = bodyData.techStack.split(',').map((s: string) => s.trim());
       }
     }
-    
+
     // DB 저장
     const validatedData = projectDataSchema.parse(bodyData);
 
@@ -69,46 +70,44 @@ export const addProject = async (req: Request, res: Response) => {
     res.status(201).json(project);
 
   } catch (error) {
-    console.error(error);
-    res.status(500).json({message: '프로젝트 생성 중 오류 발생'});
+    next(error);
   }
 };
 
 // 프로젝트 삭제
-export const removeProject = async (req: Request, res: Response) => {
+export const removeProject = async (req: Request, res: Response, next: NextFunction) => {
   try {
 
     const { id } = req.params;
-    
+
     await projectService.deleteProject(Number(id));
 
-    res.status(200).json({ message: '프로젝트가 삭제되었습니다 '});
+    res.status(200).json({ message: '프로젝트가 삭제되었습니다 ' });
   } catch (error) {
 
-    console.error(error);
-    res.status(500).json({ message: '프로젝트 삭제 실패' });
-    
+    next(error);
+
   };
 };
 
 // 데모 활성화 상태 토글
-export const toggleStatus = async (req:Request, res: Response) => {
+export const toggleStatus = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
     const { isDemoActive } = req.body;
     const updated = await projectService.updateProjectStatus(Number(id), isDemoActive);
     res.status(200).json(updated);
   } catch (error) {
-    res.status(500).json({message: '상태 변경 실패'});
+    next(error);
   }
 };
 
 // 화면용 프로젝트 조회
-export const getPublicProjects = async (req: Request, res: Response) => {
+export const getPublicProjects = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const projects = await projectService.getPublicProjects(); 
+    const projects = await projectService.getPublicProjects();
     res.status(200).json(projects);
   } catch (error) {
-    res.status(500).json({ message: '프로젝트를 불러오는데 실패했습니다.' });
+    next(error);
   }
 };

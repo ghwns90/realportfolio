@@ -40,3 +40,6 @@ server/db_data/
 *.log
 #
 server/uploads/
+
+CODE_REVIEW.md
+.agent/*

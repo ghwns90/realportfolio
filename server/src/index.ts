@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import adminRoutes from './routes/admin.routes';
 import publicRoutes from './routes/public.routes';
+import { globalErrorHandler } from 'middlewares/errorHandler';
 import path from 'path';
 import { authenticateJWT } from 'middlewares/authMiddleware';
 import { visitorLogger } from 'middlewares/visitorMiddleware';
@@ -24,7 +25,7 @@ app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use(visitorLogger);
 
-app.get('/', (req: Request, res: Response)=> {
+app.get('/', (req: Request, res: Response) => {
   res.send('포트폴리오 서버가 정상적으로 돌아가고 있어, 선배!');
 });
 
@@ -38,6 +39,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/admin', authenticateJWT, adminRoutes);
 
 
+//------------------ 에러 핸들러 -------------------
+app.use(globalErrorHandler);
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`
