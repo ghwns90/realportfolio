@@ -82,13 +82,19 @@
 ---
 
 ## 이미지
-<table>
+<table style="border: 0;">
     <tr>
         <td valign="top" width="50%">
             <img width="100%" alt="스크린샷 2026-01-27 215139" src="https://github.com/user-attachments/assets/d295516b-5de3-467f-bdfb-22631818d3b6" />
+            <br/>
+            <img width="100%" alt="스크린샷 2026-01-27 215157" src="https://github.com/user-attachments/assets/ffb9e093-e8a9-4eff-b88a-3398c81ac8aa" />
+            <br/>
+            <img width="48%" alt="스크린샷 2026-01-27 215220" src="https://github.com/user-attachments/assets/f7469db1-4363-4cbd-a6c9-8c4ce52580ea" />
+            <br/>
+            <img width="48%" alt="스크린샷 2026-01-27 215238" src="https://github.com/user-attachments/assets/5b2ad64b-8d12-46e6-9e8a-d5631cc28eaf" />
         </td>
         <td valign="top" width="50%">
-            <img width="100%" alt="스크린샷 2026-01-27 215157" src="https://github.com/user-attachments/assets/ffb9e093-e8a9-4eff-b88a-3398c81ac8aa" />
+            
         </td>
     </tr>
 </table>
