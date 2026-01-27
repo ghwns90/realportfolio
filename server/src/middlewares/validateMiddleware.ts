@@ -6,14 +6,19 @@ export const validate = (schema: z.ZodType) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       // 요청 데이터(body, query, params)가 스키마와 맞는지 검사
-      await schema.parseAsync({
+      const validatedData = await schema.parseAsync({
         body: req.body,
         query: req.query,
         params: req.params,
-      });
+      }) as any;
+
+      req.body = validatedData.body;
+
       return next(); 
 
     } catch (error) {
+
+      // console.log("Validation Error:", error);
   
       if (error instanceof z.ZodError) {
         const errors = error.issues.map((issue) => ({
