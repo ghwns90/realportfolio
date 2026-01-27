@@ -1,7 +1,7 @@
 # My Portfolio Project
 > "React와 Node.js로 구축한 풀스택 개인 포트폴리오 사이트입니다."
 
-![Project Thumbnail](./client/public/logo.png) *<!-- 로고나 대표 이미지가 있다면 교체해주세요 -->*
+![Project Thumbnail](./client/public/logo512.png) *<!-- 로고나 대표 이미지가 있다면 교체해주세요 -->*
 
 ## 📖 Introduction
 비전공자로서 국비지원 과정을 통해 Spring Boot를 학습한 후, 웹 개발의 또 다른 주축인 **React**와 **Node.js** 생태계를 직접 경험해보고자 시작한 프로젝트입니다.
